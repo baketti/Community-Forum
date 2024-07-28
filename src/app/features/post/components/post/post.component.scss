@@ -1,0 +1,22 @@
+.post{
+    min-width: 80%;
+    max-width: 90%;
+    margin: 0 auto;
+    @media (max-width: 500px) {
+        max-width: 100%;
+    }
+}
+
+.post-user-icon {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+mat-card-title h4{
+    margin-bottom: 20px;
+}
+
+mat-card-content button{
+    margin: 8px 0 !important;
+}

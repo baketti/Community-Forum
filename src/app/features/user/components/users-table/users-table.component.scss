@@ -1,0 +1,74 @@
+.content-header {
+  width: 94%;
+  height:100px;
+  z-index:100;
+  top: 58px;
+  position:fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content-title{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.card-container {
+  width: 100%;
+}
+
+.mat-mdc-form-field-subscript-wrapper{
+  display: none;
+}
+
+.table-card{
+  margin-bottom: 40px;
+}
+
+.full-width-table {
+  width: 100%;
+  margin-top: 60px;
+}
+
+.email-cell {
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.little-cell{
+  max-width: 50px;
+  overflow: hidden;
+}
+
+.search-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  @media (max-width: 500px) {
+    padding: 8px;
+  }
+}
+
+.search-field{
+  width: 80%;
+  margin-top: 20px;
+}
+
+.radio-group{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.radio-btn{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+

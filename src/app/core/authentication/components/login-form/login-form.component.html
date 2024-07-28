@@ -1,0 +1,41 @@
+<div class="login-header-wrapper">
+    <h2>You're welcome!</h2>
+</div>
+<form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+    <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input formControlName="email" matInput placeholder="Email" />
+        <mat-error *ngIf="fieldHasError('email')">
+            {{ getErrorMessage("email") }}
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Token</mat-label>
+        <input formControlName="token" matInput placeholder="Token" />
+        <mat-error *ngIf="fieldHasError('token')">
+            {{ getErrorMessage("token") }}
+        </mat-error>
+    </mat-form-field>
+  
+    <div class="submit-btn-div">
+        <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="!loginForm.valid"
+        >
+            <app-spinner [id]="'login'" [size]="25"></app-spinner>
+            <span *ngIf="!(loadingService.isAjaxLoading$ | async)">
+                Login
+            </span>
+        </button>
+    </div>
+    <div class="navigation-link">
+        <b>Don't have a token? <a href="https://gorest.co.in/consumer/login" target="_blank">
+            Create today!</a>
+        </b>
+    </div>
+    <div class="navigation-link">
+        <b>Don't have an account? <a [routerLink]="['/auth/registration']">Register here</a></b>
+    </div>
+</form>

@@ -1,0 +1,9 @@
+<form class="comment-form" [formGroup]="commentForm" (submit)="handleSubmit()">
+    <mat-form-field class="comment-full-width" appearance="outline">
+      <mat-label>Leave a comment</mat-label>
+      <input matInput formControlName="comment"/>
+    </mat-form-field>
+    <button mat-button type="submit" [disabled]="isDisabled">
+      <mat-icon>send</mat-icon>
+    </button>
+</form>

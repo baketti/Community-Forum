@@ -1,0 +1,21 @@
+<mat-toolbar class="shadow appbar" >
+    <div class="appbar-links">
+        <button *ngIf="isLoggedIn" mat-button (click)="goToUsersPage()">
+            Users <mat-icon>group</mat-icon></button>
+        <button *ngIf="isLoggedIn" mat-button (click)="goToPostsPage()">
+            Posts <mat-icon> forum</mat-icon>
+        </button>
+    </div>
+    <button mat-button [matMenuTriggerFor]="menu">
+        Menu
+        <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" class="menu">
+        <button mat-menu-item *ngIf="isLoggedIn" (click)="goToUserProfile()">{{currentUser?.name}}</button>
+        <button mat-menu-item *ngIf="!isLoggedIn" (click)="goToLoginPage()">
+            Login <mat-icon svgIcon="login"></mat-icon></button>
+        <button mat-menu-item *ngIf="isLoggedIn" (click)="handleLogout()">
+            Logout <mat-icon svgIcon="logout"></mat-icon>
+        </button>
+    </mat-menu>
+</mat-toolbar>

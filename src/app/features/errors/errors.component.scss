@@ -1,0 +1,14 @@
+.error-wrapper{
+    width: 100%;
+    position: relative;
+    min-height: 100vh; 
+}
+.error-container{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+  

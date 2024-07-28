@@ -1,0 +1,15 @@
+.comment{
+    margin-bottom: 8px;
+}
+
+.comment-user-icon {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    div{
+        max-width: 180px;
+        height: 30px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}

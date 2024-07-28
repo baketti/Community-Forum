@@ -1,0 +1,11 @@
+<div class="add-button-wrapper">
+    <button
+      mat-fab
+      matTooltip="Create a new"
+      color="primary"
+      (click)="openCreationDialog()"
+      [disabled]="isDialogOpened"
+    >
+      <mat-icon>{{icon}}</mat-icon>
+    </button>
+</div>

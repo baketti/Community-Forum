@@ -1,0 +1,55 @@
+<div class="register-header-wrapper">
+    <h2>Create new Account</h2>
+</div>
+<form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()">
+    <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input formControlName="name" matInput placeholder="Name" />
+        <mat-error *ngIf="fieldHasError('name')">
+        {{ getErrorMessage("name") }}
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input formControlName="email" matInput placeholder="Email" />
+        <mat-error *ngIf="fieldHasError('email')">
+        {{ getErrorMessage("email") }}
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status" placeholder="Status">
+        <mat-option value="active">Active</mat-option>
+        <mat-option value="inactive">Inactive</mat-option>
+        </mat-select>
+        <mat-error *ngIf="fieldHasError('status')">
+        {{ getErrorMessage("status") }}
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Gender</mat-label>
+        <mat-select formControlName="gender" placeholder="Gender">
+        <mat-option value="male">Male</mat-option>
+        <mat-option value="female">Female</mat-option>
+        </mat-select>
+        <mat-error *ngIf="fieldHasError('gender')">
+        {{ getErrorMessage("gender") }}
+        </mat-error>
+    </mat-form-field>
+
+    <div class="submit-btn-div">
+        <button
+            type="submit"
+            mat-raised-button
+            color="primary"
+            [disabled]="!registerForm.valid"
+        >
+            <app-spinner [id]="'post-user'" [size]="25"></app-spinner>
+            <span *ngIf="!(loadingService.isAjaxLoading$| async)">Register</span>
+        </button>
+    </div>
+    <div class="navigation-link">
+        <b>Already registered? <a [routerLink]="['/auth/login']">Login here</a></b>
+    </div>
+</form>
+

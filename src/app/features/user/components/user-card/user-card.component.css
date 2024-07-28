@@ -1,0 +1,21 @@
+.user-card {
+    position: relative;
+    margin: 0 auto;
+}
+.user-status{
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 12px;
+}
+.user-card-header{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-card-content{
+    text-align: center;
+}

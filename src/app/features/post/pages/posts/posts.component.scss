@@ -1,0 +1,50 @@
+.content-header {
+    width: 94%;
+    height:100px;
+    z-index:100;
+    top: 58px;
+    position:fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .search-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    @media (max-width: 500px) {
+      padding: 8px;
+    }
+  }
+  
+  .search-field{
+    width: 80%;
+    margin-top: 20px;
+  }
+  
+.posts-list{
+    margin-top: 90px;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 18px;
+    position: relative;
+}
+
+.spinner-div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100vh;
+    z-index: 10000;
+    overflow-y: hidden;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
