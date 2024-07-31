@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
 
 describe('UsersTableComponent', () => {
   let component: UsersTableComponent;
@@ -19,7 +20,8 @@ describe('UsersTableComponent', () => {
       declarations: [UsersTableComponent],
       imports: [
         MatCardModule,
-        MatIconModule
+        MatIconModule,
+        MatTableModule
       ],
       providers: [
         Router, 

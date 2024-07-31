@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CreateUserFormComponent } from './create-user-form.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { LoadingService } from '@/app/services/loading/loading.service';
@@ -9,6 +8,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from '@/app/shared/shared.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('CreateUserFormComponent', () => {
   let component: CreateUserFormComponent;
@@ -22,7 +23,9 @@ describe('CreateUserFormComponent', () => {
         MatFormFieldModule,
         MatSelectModule,
         SharedModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatInputModule,
+        BrowserAnimationsModule
       ],
       providers: [
         FormValidationService,

@@ -10,6 +10,9 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from '@/app/shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { provideRouter, RouterModule } from '@angular/router';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -26,11 +29,15 @@ describe('RegisterComponent', () => {
         MatFormFieldModule,
         SharedModule,
         MatSelectModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatInputModule,
+        RouterModule.forRoot([]),
+        BrowserAnimationsModule
       ],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
+        provideRouter([])
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })

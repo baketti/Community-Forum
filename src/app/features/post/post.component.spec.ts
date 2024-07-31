@@ -18,8 +18,9 @@ import { PostCommentComponent } from './components/post-comment/post-comment.com
 import { SinglePostComponent } from './components/post/post.component';
 import { PostListComponent } from './pages/posts/posts.component';
 import { PostRoutingModule } from './post-routing.module';
-import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { HttpClientModule, provideHttpClient } from '@angular/common/http';
+import { HttpClientTestingModule, provideHttpClientTesting } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommentsService } from '@/app/services/comments/comments.service';
 
 describe('PostComponent', () => {
@@ -49,13 +50,14 @@ describe('PostComponent', () => {
         MatPaginatorModule,
         SharedModule,
         MatDialogModule,
-        MatButtonModule,
+        MatButtonModule
       ],
       providers: [
         CommentsService,
         provideHttpClientTesting(),
         provideHttpClient(),
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
 

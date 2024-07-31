@@ -3,8 +3,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SinglePostComponent } from './post.component';
 import { CommentsService } from '@/app/services/comments/comments.service';
 import { LoadingService } from '@/app/services/loading/loading.service';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-describe('PostComponent', () => {
+describe('SinglePostComponent', () => {
   let component: SinglePostComponent;
   let fixture: ComponentFixture<SinglePostComponent>;
 
@@ -13,7 +15,9 @@ describe('PostComponent', () => {
       declarations: [SinglePostComponent],
       providers: [
         CommentsService,
-        LoadingService
+        LoadingService,
+        provideHttpClientTesting(),
+        provideHttpClient(),
       ]
     })
     .compileComponents();

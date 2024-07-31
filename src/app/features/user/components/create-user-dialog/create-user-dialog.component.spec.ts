@@ -12,6 +12,9 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { CreateUserFormComponent } from '../create-user-form/create-user-form.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('CreateUserDialogComponent', () => {
   let component: CreateUserDialogComponent;
@@ -25,7 +28,10 @@ describe('CreateUserDialogComponent', () => {
       ],
       imports: [
         MatDialogModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatInputModule,
+        MatSelectModule,
+        BrowserAnimationsModule
       ],
       providers: [
         LoadingService,

@@ -13,6 +13,8 @@ import { provideHttpClient } from '@angular/common/http';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { SharedModule } from '@/app/shared/shared.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('CreatePostDialogComponent', () => {
   let component: CreatePostDialogComponent;
@@ -25,7 +27,9 @@ describe('CreatePostDialogComponent', () => {
         ReactiveFormsModule,
         MatDialogModule,
         MatFormFieldModule,
-        SharedModule
+        SharedModule,
+        MatInputModule,
+        BrowserAnimationsModule
       ],
       providers: [
         LoadingService,
@@ -36,7 +40,7 @@ describe('CreatePostDialogComponent', () => {
         { provide: MatDialogRef, useValue: {} },
         { provide: MAT_DIALOG_DATA, useValue: {} },
         provideHttpClientTesting(),
-        provideHttpClient(),
+        provideHttpClient()
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })

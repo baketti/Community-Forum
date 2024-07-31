@@ -11,6 +11,9 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { SharedModule } from '@/app/shared/shared.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatRadioModule } from '@angular/material/radio';
 
 describe('UsersComponent', () => {
   let component: UsersComponent;
@@ -23,7 +26,10 @@ describe('UsersComponent', () => {
       ],
       imports: [
         SharedModule,
-        MatIconModule
+        MatIconModule,
+        ReactiveFormsModule,
+        MatCardModule,
+        MatRadioModule
       ],
       providers: [
         UsersService,

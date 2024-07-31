@@ -10,6 +10,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('PostCommentFormComponent', () => {
   let component: PostCommentFormComponent;
@@ -21,14 +23,16 @@ describe('PostCommentFormComponent', () => {
       imports: [
         MatFormFieldModule,
         MatIconModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatInputModule,
+        BrowserAnimationsModule
       ],
       providers: [
         CommentsService,
         AuthenticationService,
         SnackbarMessageService,
         provideHttpClientTesting(),
-        provideHttpClient(),
+        provideHttpClient()
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })

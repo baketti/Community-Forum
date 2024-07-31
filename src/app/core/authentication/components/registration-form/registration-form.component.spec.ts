@@ -6,11 +6,14 @@ import { LoadingService } from '@/app/services/loading/loading.service';
 import { UsersService } from '@/app/services/users/users.service';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { Router } from '@angular/router';
+import { provideRouter, Router, RouterModule } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from '@/app/shared/shared.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('RegistrationFormComponent', () => {
   let component: RegistrationFormComponent;
@@ -22,7 +25,11 @@ describe('RegistrationFormComponent', () => {
       imports: [
         MatFormFieldModule,
         SharedModule,
-        ReactiveFormsModule
+        MatSelectModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        RouterModule.forRoot([]),
+        BrowserAnimationsModule     
       ],  
       providers: [
         provideHttpClient(),
@@ -30,7 +37,8 @@ describe('RegistrationFormComponent', () => {
         FormValidationService,
         UsersService,
         LoadingService,
-        Router
+        Router,
+        provideRouter([])
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })

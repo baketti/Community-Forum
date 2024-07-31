@@ -37,10 +37,12 @@ export class SinglePostComponent implements OnInit {
     }
 
     fetchComments(): void {
-      this.commentsSrv.getComments(this.post.id).subscribe({
-        next: this.handleCommentsResponse.bind(this),
-        error: (error) => console.error(error)
-      });
+      if(this.post) {
+        this.commentsSrv.getComments(this.post.id).subscribe({
+          next: this.handleCommentsResponse.bind(this),
+          error: (error) => console.error(error)
+        });
+      }
     }
 
     handleCommentsResponse(comments: IComment[]): void {

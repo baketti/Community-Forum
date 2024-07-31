@@ -13,6 +13,8 @@ import { SharedModule } from '@/app/shared/shared.module';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('PostListComponent', () => {
   let component: PostListComponent;
@@ -26,7 +28,9 @@ describe('PostListComponent', () => {
         ReactiveFormsModule,
         SharedModule,
         MatFormFieldModule,
-        MatIconModule
+        MatIconModule,
+        MatInputModule,
+        BrowserAnimationsModule
       ],
       providers: [
         PostsService,
@@ -34,7 +38,7 @@ describe('PostListComponent', () => {
         PaginationService,
         DialogHandlerService,
         provideHttpClient(),
-        provideHttpClientTesting(),
+        provideHttpClientTesting()
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })

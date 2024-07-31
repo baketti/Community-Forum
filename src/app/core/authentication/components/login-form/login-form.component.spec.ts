@@ -10,6 +10,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { SharedModule } from '@/app/shared/shared.module';
 import { SpinnerComponent } from '@/app/shared/spinner/spinner.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { provideRouter, RouterModule } from '@angular/router';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
@@ -24,7 +27,10 @@ describe('LoginFormComponent', () => {
       imports: [
         MatFormFieldModule,
         SharedModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatInputModule,
+        RouterModule.forRoot([]),
+        BrowserAnimationsModule
       ],
       providers: [
         AuthenticationService, 
@@ -32,6 +38,7 @@ describe('LoginFormComponent', () => {
         LoadingService,
         provideHttpClient(),
         provideHttpClientTesting(),
+        provideRouter([]),
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })

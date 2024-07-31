@@ -26,7 +26,16 @@ export class CreateUserFormComponent implements OnInit{
     public loadingSrv: LoadingService,
   ) { }
 
-  ngOnInit(){}
+  ngOnInit(){
+    if (!this.form) {
+      this.form = new FormGroup({
+        name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+        email: new FormControl('', [Validators.required, Validators.email]),
+        status: new FormControl(''),
+        gender: new FormControl('',[Validators.required]),
+      });
+    }
+  }
 
   onSubmit() {
     this.formSubmit.emit();

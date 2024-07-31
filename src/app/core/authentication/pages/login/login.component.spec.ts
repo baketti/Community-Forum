@@ -9,6 +9,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { SharedModule } from '@/app/shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter, RouterModule } from '@angular/router';
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -24,11 +28,15 @@ describe('LoginComponent', () => {
         MatCardModule,
         MatFormFieldModule,
         SharedModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatInputModule,
+        RouterModule.forRoot([]),
+        BrowserAnimationsModule
       ],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
+        provideRouter([])
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
