@@ -47,12 +47,11 @@ export class AuthenticationService {
           this.authenticated.next(false);
           this.snackMessage.show({
             message: "Invalid email!",
+            duration: 3000
           });
         }
       },
-      error: (error) => {
-        console.error(error);
-      }
+      error: console.error
     });
   }
 

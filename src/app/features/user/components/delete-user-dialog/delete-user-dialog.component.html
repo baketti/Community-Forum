@@ -2,7 +2,7 @@
 <mat-dialog-actions>
   <button mat-button mat-dialog-close>Cancel</button>
   <button mat-button (click)="handleDelete(data)">
-    <app-spinner [id]="'delete-user'" [size]="25"></app-spinner>
+    <app-spinner [id]="'delete-user'" [size]="25" [small]="true"></app-spinner>
     <span *ngIf="!(loadingSrv.isAjaxLoading$ | async)">Delete</span>
   </button>
 </mat-dialog-actions>

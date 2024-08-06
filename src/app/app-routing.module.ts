@@ -7,18 +7,12 @@ const routes: Routes = [
   { path: '', component: AppComponent },//insert here HomeComponent
   { 
     path: 'app', 
-    loadChildren: () => 
-      import('./features/features.module').then(m => 
-        m.FeaturesModule
-    ),
+    loadChildren: () => import('./features/features.module'),
     canActivate: [RouteGuardService] 
   },
   { 
     path: 'auth', 
-    loadChildren: () => 
-      import('./core/authentication/authentication.module').then(m => 
-        m.AuthenticationModule
-      ) 
+    loadChildren: () => import('./core/authentication/authentication.module')
   }, 
   { path: '**', redirectTo: 'app/errors' }
 ];

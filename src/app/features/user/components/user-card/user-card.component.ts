@@ -4,14 +4,14 @@ import { IUser } from '@/app/models/User';
 @Component({
   selector: 'app-user-card',
   templateUrl: './user-card.component.html',
-  styleUrl: './user-card.component.css'
+  styleUrl: './user-card.component.scss'
 })
 export class UserCardComponent implements OnInit {
 
   @Input() user!:IUser;
-  maleImg:string = "https://www.svgrepo.com/show/382106/male-avatar-boy-face-man-user-9.svg";
-  femaleImg:string = "https://www.svgrepo.com/show/382099/female-avatar-girl-face-woman-user-2.svg";
-  
+  maleImg: string = 'assets/images/male.svg';
+  femaleImg: string = 'assets/images/female.svg';
+
   constructor() { }
 
   ngOnInit(): void {}

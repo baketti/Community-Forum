@@ -9,8 +9,6 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { debounceTime, Subscription } from 'rxjs';
 import { CreateUserDialogComponent } from '../../components/create-user-dialog/create-user-dialog.component';
 import { FormGroup, FormControl } from '@angular/forms';
-import { MatTable } from '@angular/material/table';
-import { UsersTableDataSource } from './users-table-datasource';
 
 interface Filters {
   searchstr: string;
@@ -37,12 +35,9 @@ export class UsersComponent implements OnInit, OnDestroy {
   per_page: number = 10;
   private pageSizeOptions: number[] = [5, 10, 25, 100];
   page_size_options:number[] = [...this.pageSizeOptions]
-  
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatTable) table!: MatTable<IUser>;
-  dataSource = new UsersTableDataSource();
   private subscription: Subscription = new Subscription();
-  searchForm!: FormGroup;
+  searchForm: FormGroup;
 
   constructor(
     private usersService: UsersService,
@@ -51,44 +46,43 @@ export class UsersComponent implements OnInit, OnDestroy {
     private dialogHandlerSrv: DialogHandlerService,
     public loadingSrv: LoadingService
   ) {
-    this.searchForm = new FormGroup({
-        searchstr : new FormControl(''),
-        gender : new FormControl(''),
-        status : new FormControl('')
-    });
+    this.searchForm = this.initSearchForm
     this.openCreateUserDialog = this.openCreateUserDialog.bind(this);
   }
 
+  private get initSearchForm(): FormGroup {
+    return new FormGroup({
+      searchstr : new FormControl(''),
+      gender : new FormControl(''),
+      status : new FormControl('')
+    });
+  }
+
   ngOnInit(): void {
-    this.dataSource.paginator = this.paginator;
     this.subscription.add(
       this.paginationSrv.pagination$.subscribe(pagination => {
-        console.log("Pagination limit: ", pagination.per_page);  
         this.totalUsers = pagination.totalItems;
         this.per_page = pagination.per_page || 0;
         this.page = pagination.page || 0;
-        console.log("pagination updated");
       })
     );
     this.searchForm.valueChanges.pipe(
       debounceTime(1000)).subscribe(value => {
-        console.log('Search value changed:', value);
         this.fetchUsersByFilters();
       })
-      this.refresh();
-    }
+    this.refresh();
+  }
 
   fetchUsers(): void {
     const { page, per_page } = this;
-    console.log("Page: ", page);
     this.usersService.getUsers(page+1, per_page).subscribe({
       next: this.handleResponse.bind(this),
-      error: this.handleError.bind(this)
+      error: console.error
     });
   }
 
   fetchUsersByFilters(): void {
-    const { page } = this;
+    const { page, per_page } = this;
     const filters:Filters = this.searchForm.value;
     const { searchstr } = filters;
     let filterObj = {};
@@ -97,15 +91,13 @@ export class UsersComponent implements OnInit, OnDestroy {
     }else {
       filterObj = {...filters, name: searchstr};
     }
-    this.usersService.getUsersByFilters(filterObj, page+1, this.per_page).subscribe({
+    this.usersService.getUsersByFilters(filterObj, page+1, per_page).subscribe({
       next: this.handleResponse.bind(this),
-      error: this.handleError.bind(this)
+      error: console.error
     });
   }
 
   refresh(): void {
-    console.log("refresh");
-    console.log("refresh pagination ",this.page," ", this.per_page);
     if(this.hasActiveFilters()){
       this.fetchUsersByFilters()
     }else{
@@ -114,23 +106,14 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   handleResponse(users: IUser[]): void {
-    console.log("handleResponse: ", users);
     if(!users.length && this.totalUsers){
       this.refresh();
     }
     this.users = users;
-    this.table.dataSource = users;
     this.updatePageSizeOptions();
-    console.log("Users: ", this.users);
-  }
-
-  handleError(error: string): void {
-    console.log("Error: ", error);
   }
 
   onPageChange(event: PageEvent) {
-    console.log("Event: ", event);
-    console.log("Search form value : ", this.searchForm.value);
     const { pageIndex, pageSize } = event
     this.paginationSrv.updatePagination(pageIndex, pageSize);
     this.refresh();
@@ -157,23 +140,26 @@ export class UsersComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  updateUsers(user:IUser) {
-    this.users = [user,...this.users];
-  }
-
   openCreateUserDialog() {
     this.dialogHandlerSrv.setIsDialogOpened();
     const dialogRef = this.dialog.open(CreateUserDialogComponent,{
       width: '350px',
       data: {}
     });
-
     dialogRef.afterClosed().subscribe(user => {
       this.dialogHandlerSrv.setIsDialogClosed();
       if(user){
         this.updateUsers(user);
       }
     });
+  }
+
+  updateUsers(user:IUser) {
+    this.users = [user, ...this.users];
+  }
+
+  deleteUser(userId: number){
+    this.users=[...this.users.filter(user => user.id !== userId)];
   }
 
   ngOnDestroy(): void {

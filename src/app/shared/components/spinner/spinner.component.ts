@@ -9,6 +9,7 @@ import { LoadingService } from '@/app/services/loading/loading.service';
 export class SpinnerComponent implements OnInit{  
     @Input() id: string = '';
     @Input() size!: number;
+    @Input() small: boolean = false;
     private _show: boolean = false;
     
     set show(value: boolean) {

@@ -13,29 +13,30 @@ export const paginationHeadersInterceptor: HttpInterceptorFn = (req, next) => {
       pages: response.headers.get('x-pagination-pages'),
       total: response.headers.get('x-pagination-total')
     };
-    console.log('User pagination headers:', paginationHeaders);
-    let total = Number(paginationHeaders.total);
     let per_page = Number(paginationHeaders.limit)
-    let page = Number(paginationHeaders.page) - 1;
-      if(total <= per_page) {
-        page = 0;
-      }
-    paginationSrv.setPagination(total, per_page, page);
+    let page = Number(paginationHeaders.page);
+    let pages = Number(paginationHeaders.pages);
+    let total = Number(paginationHeaders.total);
+    if(total <= per_page || page > pages) {
+      page = 0;
+    }
+    paginationSrv.setPagination(total, per_page, page-1);
   }
-
-  return next(req).pipe(
-    tap(event => {
-      console.log('Response intercepted:', event);
-      
-      if (event instanceof HttpResponse) {
-        if (req.url.includes('/users')) {
-          handlePaginationHeaders(event);
-        } else if (req.url.includes('/posts') && !req.url.includes('/comments')) {
-          handlePaginationHeaders(event);
+  if(req.method === 'GET'){
+    return next(req).pipe(
+      tap(event => {
+        if (event instanceof HttpResponse) {
+          if (req.url.includes('/users')) {
+            handlePaginationHeaders(event);
+          } else if (req.url.includes('/posts') && !req.url.includes('/comments')) {
+            handlePaginationHeaders(event);
+          }
         }
-      }
-    }, error => {
-      console.error('Error response intercepted:', error);
-    })
-  );
+      }, error => {
+        console.error('Error response intercepted:', error);
+      })
+    );
+  }else{
+    return next(req)
+  }
 };

@@ -5,7 +5,6 @@ import { inject } from '@angular/core';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthenticationService);
   const token = authService.getSessionToken();
-  console.log('isLogged???',authService.isLogged());
   
   const authReq = req.clone({
     setHeaders: {

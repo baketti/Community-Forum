@@ -40,8 +40,6 @@ export class UsersService {
   }
 
   getUsersByFilters(filters: Record<string,string>,page: number, per_page: number): Observable<IUser[]> {
-    console.log("getUsersByFilters srv page=> ",page);
-    
     const filterString = Object.entries(filters).map(([key, value]) => `${key}=${value}`).join('&');
     return this.http.get<IUser[]>(
       `${this.baseUrl}?page=${page}&per_page=${per_page}&${filterString}`,
@@ -57,7 +55,9 @@ export class UsersService {
   }
 
   getUserPosts(userId: number): Observable<IPost[]> {
-    return this.http.get<IPost[]>(`${this.baseUrl}/${userId}/posts`);
+    return this.http.get<IPost[]>(
+      `${this.baseUrl}/${userId}/posts`
+    );
   }
 
   deleteUsersByUserId(userId: number): Observable<any> {

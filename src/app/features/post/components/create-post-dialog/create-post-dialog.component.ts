@@ -4,7 +4,7 @@ import { LoadingService } from '@/app/services/loading/loading.service';
 import { SnackbarMessageService } from '@/app/services/notification/snackbar-message.service';
 import { PaginationService } from '@/app/services/pagination/pagination.service';
 import { PostsService } from '@/app/services/posts/posts.service';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
@@ -13,9 +13,8 @@ import { MatDialogRef } from '@angular/material/dialog';
   templateUrl: './create-post-dialog.component.html',
   styleUrl: './create-post-dialog.component.scss'
 })
-export class CreatePostDialogComponent implements OnInit{
-
-  newPostForm!:FormGroup;
+export class CreatePostDialogComponent {
+  newPostForm:FormGroup;
   get isDisabled():boolean{
     return this.newPostForm.invalid;
   };
@@ -27,10 +26,12 @@ export class CreatePostDialogComponent implements OnInit{
     private snackMessage: SnackbarMessageService,
     private formValidationService: FormValidationService,
     private paginationSrv: PaginationService
-  ){}
+  ){
+    this.newPostForm = this.initNewPostForm
+  }
 
-  ngOnInit(): void {
-    this.newPostForm = new FormGroup({
+  private get initNewPostForm(): FormGroup {
+    return new FormGroup({
       title: new FormControl('', [
         Validators.required, 
         Validators.minLength(3)
@@ -45,25 +46,29 @@ export class CreatePostDialogComponent implements OnInit{
   onSubmit():void {
     const newPost = this.newPostForm.value;
     this.postSrv.postPost(newPost).subscribe({
-      next: (post) => {
-        console.log("Post created: ", post);
-        this.closeDialog(post);
-        this.paginationSrv.setPaginationAfterCreate();
-        this.snackMessage.show({
-          message:"Post created successfully!",
-          duration: 5000
-        });
-      },
-      error: (err) => {
-        this.snackMessage.show({
-          message:"Error while creating post..."
-        });
-      }
+      next: this.handlePostSubmit.bind(this),
+      error: this.handlePostSubmitError.bind(this)
     });
   }
 
-  closeDialog(post:IPost) {
-    console.log("Post created closeDialog : ", post);
+  handlePostSubmit(post: IPost): void {
+    this.closeDialog(post);
+    this.paginationSrv.setPaginationAfterCreate();
+    this.snackMessage.show({
+      message:"Post created successfully!",
+      duration: 5000
+    });
+  }
+
+  handlePostSubmitError(error: any): void {
+    this.closeDialog(null);
+    this.snackMessage.show({
+      message:"Error while creating post",
+      duration: 5000
+    });
+  }
+
+  closeDialog(post: IPost | null) {
     this.dialogRef.close(post);
   }
 
@@ -79,6 +84,5 @@ export class CreatePostDialogComponent implements OnInit{
       fieldName,
       this.newPostForm
     );
-}
-
+  }
 }

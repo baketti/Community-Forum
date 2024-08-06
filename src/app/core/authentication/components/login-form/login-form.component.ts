@@ -17,10 +17,10 @@ export class LoginFormComponent {
     private formValidationService: FormValidationService,
     public loadingService: LoadingService
   ) { 
-    this.loginForm = this.initLoginForm();
+    this.loginForm = this.initLoginForm;
   }
 
-  private initLoginForm(): FormGroup {
+  private get initLoginForm(): FormGroup {
     return new FormGroup({
       email: new FormControl('', [
         Validators.required,

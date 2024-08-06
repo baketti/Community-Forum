@@ -9,7 +9,7 @@ import { PaginationService } from '@/app/services/pagination/pagination.service'
 @Component({
   selector: 'app-delete-user-dialog',
   templateUrl: './delete-user-dialog.component.html',
-  styleUrl: './delete-user-dialog.component.css'
+  styleUrl: './delete-user-dialog.component.scss'
 })
 export class DeleteUserDialogComponent {
   constructor(
@@ -40,7 +40,7 @@ export class DeleteUserDialogComponent {
   handleFailDelete(userId:number):void {
     this.closeDialog(userId);
     this.snackMessage.show({
-      message: "Error while deleting user...",
+      message: "Error while deleting user",
     });
   }
 

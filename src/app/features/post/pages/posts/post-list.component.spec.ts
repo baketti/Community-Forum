@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PostListComponent } from './posts.component';
+import { PostListComponent } from './post-list.component';
 import { DialogHandlerService } from '@/app/services/dialog-handler/dialog-handler.service';
 import { LoadingService } from '@/app/services/loading/loading.service';
 import { PaginationService } from '@/app/services/pagination/pagination.service';

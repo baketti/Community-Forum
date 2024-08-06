@@ -13,13 +13,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
 import { CreatePostDialogComponent } from './components/create-post-dialog/create-post-dialog.component';
-import { PostCommentFormComponent } from './components/post-comment-form/post-comment-form.component';
-import { PostCommentComponent } from './components/post-comment/post-comment.component';
-import { SinglePostComponent } from './components/post/post.component';
-import { PostListComponent } from './pages/posts/posts.component';
+import { PostListComponent } from './pages/posts/post-list.component';
 import { PostRoutingModule } from './post-routing.module';
-import { HttpClientModule, provideHttpClient } from '@angular/common/http';
-import { HttpClientTestingModule, provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommentsService } from '@/app/services/comments/comments.service';
 
@@ -31,10 +28,7 @@ describe('PostComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [
         PostComponent,
-        PostCommentComponent,
-        PostCommentFormComponent,
         CreatePostDialogComponent,
-        SinglePostComponent,
         PostListComponent
       ],
       imports: [

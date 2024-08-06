@@ -1,50 +1,45 @@
 <app-add-button 
-    [icon]="'person_add'" 
-    [openCreationDialog]="openCreateUserDialog">
+  [icon]="'person_add'" 
+  [openCreationDialog]="openCreateUserDialog">
 </app-add-button>
-
 <mat-card class="content-header">
-    <form class="search-container" [formGroup]="searchForm">
-        <mat-form-field appearance="outline" class="search-field">
-            <mat-label>Search...</mat-label>
-            <input matInput formControlName="searchstr">
-        </mat-form-field>
-        <div class="radio-group">
-          <mat-radio-group class="radio-btn" aria-label="Select an option" formControlName="status">
-            <mat-radio-button value="active" (click)="toggleFilterSelection('status','active')">
-              <mat-icon svgIcon="active"></mat-icon>
-            </mat-radio-button>
-            <mat-radio-button value="inactive" (click)="toggleFilterSelection('status','inactive')">
-              <mat-icon svgIcon="inactive"></mat-icon>
-            </mat-radio-button>
-          </mat-radio-group>
-          <mat-radio-group class="radio-btn" aria-label="Select an option" formControlName="gender">
-            <mat-radio-button value="male" (click)="toggleFilterSelection('gender','male')">
-              <mat-icon svgIcon="gender_male"></mat-icon>
-            </mat-radio-button>
-            <mat-radio-button value="female" (click)="toggleFilterSelection('gender','female')">
-              <mat-icon svgIcon="gender_female"></mat-icon>
-            </mat-radio-button>
-          </mat-radio-group>
-        </div>
-    </form>
+  <form class="search-container" [formGroup]="searchForm">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search...</mat-label>
+        <input matInput formControlName="searchstr">
+      </mat-form-field>
+      <div class="radio-group">
+        <mat-radio-group class="radio-btn" aria-label="Select an option" formControlName="gender">
+          <mat-radio-button value="male" (click)="toggleFilterSelection('gender','male')">
+            <mat-icon class="users-icon" svgIcon="gender_male" [appUserIcons]="'male'"></mat-icon>
+          </mat-radio-button>
+          <mat-radio-button value="female" (click)="toggleFilterSelection('gender','female')">
+            <mat-icon class="users-icon" svgIcon="gender_female" [appUserIcons]="'female'"></mat-icon>
+          </mat-radio-button>
+        </mat-radio-group>
+        <mat-radio-group class="radio-btn" aria-label="Select an option" formControlName="status">
+          <mat-radio-button value="active" (click)="toggleFilterSelection('status','active')">
+            <mat-icon class="users-icon" svgIcon="active" [appUserIcons]="'active'"></mat-icon>
+          </mat-radio-button>
+          <mat-radio-button value="inactive" (click)="toggleFilterSelection('status','inactive')">
+            <mat-icon class="users-icon" svgIcon="inactive" [appUserIcons]="'inactive'"></mat-icon>
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+  </form>
 </mat-card>
-
-<!-- <div [ngClass]="{'min-height-100vh': (loadingSrv.isAjaxLoading$ | async)}">
-    <div [ngClass]="{'min-height-100vh': (loadingSrv.isAjaxLoading$ | async)}">
-        <app-spinner [id]="'users'" [size]="90"></app-spinner>                
-    </div>
-</div> -->
-
-<app-users-table [users]="users"></app-users-table>
-
-<mat-paginator #paginator
-    class="paginator"
-    [length]="totalUsers"
-    [pageIndex]="page"
-    [pageSize]="per_page"
-    [pageSizeOptions]="page_size_options"
-    (page)="onPageChange($event)"
-    aria-label="Select page">
+<app-users-table 
+  [users]="users" 
+  (deleteUser)="deleteUser($event)"
+></app-users-table>
+<mat-paginator 
+  #paginator
+  [length]="totalUsers"
+  [pageIndex]="page"
+  [pageSize]="per_page"
+  [pageSizeOptions]="page_size_options"
+  (page)="onPageChange($event)"
+  aria-label="Select page">
 </mat-paginator>
-
+<!-- LOADING SPINNER -->
+<app-spinner [id]="'users'"[size]="75" ></app-spinner>

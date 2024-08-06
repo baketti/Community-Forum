@@ -22,8 +22,7 @@ import { UsersTableComponent } from './components/users-table/users-table.compon
 import { UserDetailsComponent } from './pages/user-details/user-details.component';
 import { UsersComponent } from './pages/users/users.component';
 import { RouterModule } from '@angular/router';
-import { PostsModule } from '../post/post.module';
-
+import { NgOptimizedImage } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -34,7 +33,7 @@ import { PostsModule } from '../post/post.module';
     CreateUserFormComponent,
     CreateUserDialogComponent,
     UsersComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
   ],
   imports: [
     CommonModule,
@@ -53,8 +52,8 @@ import { PostsModule } from '../post/post.module';
     MatDialogModule,
     MatTableModule,
     MatRadioModule,
-    PostsModule
+    NgOptimizedImage,
   ]
 })
 
-export class UsersModule { }
+export default class UsersModule { }

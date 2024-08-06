@@ -50,9 +50,7 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
-    @media (max-width: 500px) {
-      padding: 8px;
-    }
+    padding: 8px;
   }
   
   .search-field{
@@ -72,4 +70,23 @@
     flex-direction: column;
   }
   
-  
+  .spinner-div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100vh;
+    z-index: 10000;
+    overflow-y: hidden;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.users-icon {
+  padding: 4px;
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 18%;
+}

@@ -1,0 +1,27 @@
+@if(post){
+    <mat-card class="post">
+        <mat-card-header>
+            <mat-card-title>
+                <h4>{{post.title}}</h4>
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p>{{post.body}}</p>
+        </mat-card-content>
+        <mat-card-content>
+            <button mat-button (click)="toggleComments()">
+                <mat-icon>question_answer</mat-icon>Comments: {{comments.length}}</button>
+        </mat-card-content>
+        @if(showComments){
+            <mat-card-content>
+                @for(comment of comments; track $index){
+                    <app-post-comment [comment]="comment"></app-post-comment>
+                }
+            </mat-card-content>
+        }
+        <mat-card-content>
+            <app-post-comment-form [postId]="post.id" (commentCreated)="updateComments($event)"></app-post-comment-form>
+        </mat-card-content>
+    </mat-card>
+}
+

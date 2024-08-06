@@ -8,7 +8,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { SharedModule } from '@/app/shared/shared.module';
-import { SpinnerComponent } from '@/app/shared/spinner/spinner.component';
+import { SpinnerComponent } from '@/app/shared/components/spinner/spinner.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { provideRouter, RouterModule } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';

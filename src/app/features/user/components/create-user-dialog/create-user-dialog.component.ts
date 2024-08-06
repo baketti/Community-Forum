@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UsersService } from '@/app/services/users/users.service';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -10,11 +10,10 @@ import { PaginationService } from '@/app/services/pagination/pagination.service'
 @Component({
   selector: 'app-create-user-dialog',
   templateUrl: './create-user-dialog.component.html',
-  styleUrl: './create-user-dialog.component.css'
+  styleUrl: './create-user-dialog.component.scss'
 })
-export class CreateUserDialogComponent implements OnInit {
-
-  newUserForm!:FormGroup;
+export class CreateUserDialogComponent {
+  newUserForm:FormGroup;
   get isDisabled():boolean{
     return this.newUserForm.invalid;
   };
@@ -25,36 +24,60 @@ export class CreateUserDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<CreateUserDialogComponent>,
     private snackMessage: SnackbarMessageService,
     private paginationSrv: PaginationService
-  ) { }
+  ) {
+    this.newUserForm = this.initNewUserForm
+  }
 
-  ngOnInit(){
-    this.newUserForm = new FormGroup({
-      name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      status: new FormControl(''),
-      gender: new FormControl('',[Validators.required]),
-    })
+  private get initNewUserForm(): FormGroup {
+    return new FormGroup(
+      {
+        name: new FormControl('', [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(60),
+        ]),
+        email: new FormControl('', [
+          Validators.required,
+          Validators.email,
+          Validators.minLength(5),
+          Validators.maxLength(30),
+        ]),
+        status: new FormControl('', [
+          Validators.required,
+        ]),
+        gender: new FormControl('', [
+          Validators.required,
+        ]),
+      },
+    )
   }
 
   onSubmit() {
-    console.log(this.newUserForm.value);
     const user = this.newUserForm.value;
     this.userSrv.postUser(user).subscribe({
-      next: (res) => {
-        this.closeDialog(res);
-        this.paginationSrv.setPaginationAfterCreate();
-        this.snackMessage.show({
-          message:"User created successfully",
-          duration: 5000
-        });
-      },
-      error: (err) => {
-        console.error(err);
-      }
+      next: this.handlePostUser.bind(this),
+      error: this.handlePostUserError.bind(this)
     });
   }
 
-  closeDialog(user:IUser) {
+  handlePostUser(user: IUser) {
+    this.closeDialog(user);
+    this.paginationSrv.setPaginationAfterCreate();
+    this.snackMessage.show({
+      message:"User created successfully",
+      duration: 5000
+    });
+  }
+
+  handlePostUserError(error: any) {
+    this.closeDialog(null);
+    this.snackMessage.show({
+      message:"An error occurred while creating user",
+      duration: 5000
+    });
+  }
+
+  closeDialog(user: IUser | null) {
     this.dialogRef.close(user);
   }
 }

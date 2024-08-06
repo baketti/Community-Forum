@@ -2,14 +2,15 @@ import {
   ChangeDetectionStrategy, 
   ChangeDetectorRef, 
   Component, 
+  EventEmitter, 
   Input, 
   OnChanges, 
+  Output, 
   SimpleChanges 
 } from '@angular/core';
 import { IUser } from '@/app/models/User';
 import { Router } from '@angular/router';
 import { LoadingService } from '@/app/services/loading/loading.service';
-import { UsersService } from '@/app/services/users/users.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteUserDialogComponent } from '../delete-user-dialog/delete-user-dialog.component';
 
@@ -21,14 +22,13 @@ import { DeleteUserDialogComponent } from '../delete-user-dialog/delete-user-dia
 })
 export class UsersTableComponent implements OnChanges {
   private _users: IUser[] = [];
-
-  @Input() 
-  set users(usersList: IUser[]){
+  @Input() set users(usersList: IUser[]){
     this._users = usersList;
   };
   get users(): IUser[] {
     return this._users;
   }
+  @Output() deleteUser = new EventEmitter<number>();
 
   displayedColumns = ['name','email','gender','status','edit','delete'];
 
@@ -52,7 +52,6 @@ export class UsersTableComponent implements OnChanges {
       width: '250px',
       data: userId
     });
-
     dialogRef.afterClosed().subscribe(userId => {
       if(userId){
         this.updateUsers(userId);
@@ -61,7 +60,6 @@ export class UsersTableComponent implements OnChanges {
   }
 
   updateUsers(userId: number): void {
-    this.users=[...this.users.filter(user => user.id !== userId)];
-    this.cdr.detectChanges();
+    this.deleteUser.emit(userId);
   }
 }

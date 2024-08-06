@@ -36,7 +36,6 @@
         {{ getErrorMessage("gender") }}
         </mat-error>
     </mat-form-field>
-
     <div class="submit-btn-div">
         <button
             type="submit"
@@ -44,7 +43,7 @@
             color="primary"
             [disabled]="!registerForm.valid"
         >
-            <app-spinner [id]="'post-user'" [size]="25"></app-spinner>
+            <app-spinner [id]="'post-user'" [size]="25" [small]="true"></app-spinner>
             <span *ngIf="!(loadingService.isAjaxLoading$| async)">Register</span>
         </button>
     </div>

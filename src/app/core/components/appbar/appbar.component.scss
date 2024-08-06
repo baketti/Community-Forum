@@ -4,11 +4,12 @@
     z-index: 200;
     display: flex;
     justify-content: space-between;
+    background-color: #FAFAFA;
 }
 
 .shadow {
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.082);
-  }
+}
 
 .appbar-links{
     display: flex;

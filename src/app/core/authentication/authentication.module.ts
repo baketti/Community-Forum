@@ -35,4 +35,4 @@ import { MatSelectModule } from '@angular/material/select';
     ReactiveFormsModule,
   ]
 })
-export class AuthenticationModule { }
+export default class AuthenticationModule { }

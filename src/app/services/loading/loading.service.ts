@@ -2,7 +2,7 @@ import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map } from 'rxjs';
-import { SpinnerComponent } from '@/app/shared/spinner/spinner.component';
+import { SpinnerComponent } from '@/app/shared/components/spinner/spinner.component';
 
 interface SpinnerState {
   count: number;
@@ -17,7 +17,6 @@ interface LoadingState {
   providedIn: 'root'
 })
 export class LoadingService {
-
   private spinners: Map<string, SpinnerState> = new Map();
   public currentSpinnerId: string | null = null;
   private loading = new BehaviorSubject<LoadingState>({
@@ -27,9 +26,10 @@ export class LoadingService {
   public readonly isAjaxLoading$ = this.loading.asObservable().pipe(
     map(state => state.show)
   );
-
   private overlayRef = this.cdkOverlayCreate();
+
   constructor(private overlay: Overlay) {}
+  
   private cdkOverlayCreate() {
     return this.overlay.create({
       hasBackdrop: true,
@@ -71,9 +71,7 @@ export class LoadingService {
 
   private showSpinner(id: string) {
     this.currentSpinnerId = id;
-    if(this.currentSpinnerId === "get-posts"){
-      this.overlayRef.attach(new ComponentPortal(SpinnerComponent));
-    }
+    this.overlayRef.attach(new ComponentPortal(SpinnerComponent));
     this.loading.next({
       spinnerId: id,
       show: true  
@@ -81,9 +79,7 @@ export class LoadingService {
   }
 
   private stopSpinner(id: string) {
-    if(this.currentSpinnerId === "get-posts"){
-      this.overlayRef.detach();
-    }
+    this.overlayRef.detach();
     if (this.currentSpinnerId === id) {
       const anyActive = Array.from(this.spinners.values()).some(s => s.count > 0);
       if (!anyActive) {

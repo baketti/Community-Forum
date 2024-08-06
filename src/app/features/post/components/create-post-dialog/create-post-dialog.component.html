@@ -19,7 +19,7 @@
     <mat-dialog-actions>
         <button mat-button mat-dialog-close>Cancel</button>
         <button mat-button type="submit" [disabled]="isDisabled">
-            <app-spinner [id]="'post-user'" [size]="25"></app-spinner>
+            <app-spinner [id]="'post-post'" [size]="25" [small]="true"></app-spinner>
             <span *ngIf="!(loadingSrv.isAjaxLoading$ | async)">Save</span>
         </button>
     </mat-dialog-actions>

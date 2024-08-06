@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { AuthenticationService } from './authentication.service';
 import { Router } from '@angular/router';
 import { SnackbarMessageService } from '../notification/snackbar-message.service';

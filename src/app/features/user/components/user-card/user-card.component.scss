@@ -1,0 +1,28 @@
+.user-card {
+    position: relative;
+    margin: 0 auto;
+}
+.user-status{
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 12px;
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 18%;
+}
+.user-card-header{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 10px;
+    min-height: 410px;
+    padding: 16px !important;
+    @media(max-width: 700px){
+        flex-direction: column;
+    }
+}
+
+.user-card-content{
+    text-align: center;
+}

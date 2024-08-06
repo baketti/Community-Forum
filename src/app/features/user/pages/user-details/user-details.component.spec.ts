@@ -7,6 +7,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 import { UserCardComponent } from '../../components/user-card/user-card.component';
+import { SharedModule } from '@/app/shared/shared.module';
 
 describe('UserDetailsComponent', () => {
   let component: UserDetailsComponent;
@@ -28,6 +29,7 @@ describe('UserDetailsComponent', () => {
       ],
       imports: [
         RouterModule.forRoot([]),
+        SharedModule
       ],
       providers: [
         provideHttpClient(),

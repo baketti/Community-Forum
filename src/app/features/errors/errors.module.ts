@@ -21,4 +21,4 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     MatCardModule
   ]
 })
-export class ErrorsModule { }
+export default class ErrorsModule { }

@@ -13,19 +13,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { CreatePostDialogComponent } from './components/create-post-dialog/create-post-dialog.component';
-import { PostCommentFormComponent } from './components/post-comment-form/post-comment-form.component';
-import { PostCommentComponent } from './components/post-comment/post-comment.component';
-import { PostListComponent } from './pages/posts/posts.component';
-import { SinglePostComponent } from './components/post/post.component';
+import { PostListComponent } from './pages/posts/post-list.component';
 
 
 @NgModule({
   declarations: [
     PostComponent,
-    PostCommentComponent,
-    PostCommentFormComponent,
     CreatePostDialogComponent,
-    SinglePostComponent,
     PostListComponent
   ],
   imports: [
@@ -42,10 +36,7 @@ import { SinglePostComponent } from './components/post/post.component';
     SharedModule,
     MatDialogModule,
     MatButtonModule,
-  ],
-  exports: [
-    SinglePostComponent,
   ]
 })
 
-export class PostsModule { }
+export default class PostsModule { }

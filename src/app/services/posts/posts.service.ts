@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable, of, switchMap } from 'rxjs';
 import { IPost } from '@/app/models/Post';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { ApisHelperService } from '../apis-helper/apis-helper.service';
+import { UsersService } from '../users/users.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class PostsService {
   constructor(
     private http: HttpClient,
     private authSrv: AuthenticationService,
-    private apisHelperSrv: ApisHelperService
+    private apisHelperSrv: ApisHelperService,
+    private usersService: UsersService
   ) { }
 
   postPost(post: IPost): Observable<IPost> {
@@ -34,9 +36,9 @@ export class PostsService {
     );
   }
 
-  getPostsByTitle(searchStr:string): Observable<IPost[]> {
+  getPostsByTitle(searchStr:string,page: number, per_page: number): Observable<IPost[]> {
     return this.http.get<IPost[]>(
-      `${this.baseUrl}posts?title=${searchStr}`,
+      `${this.baseUrl}posts?page=${page}&per_page=${per_page}&title=${searchStr}`,
       this.apisHelperSrv.addXSpinnerIdHeader("get-posts")
     );
   }

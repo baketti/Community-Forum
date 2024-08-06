@@ -33,15 +33,28 @@
 }
 
 .email-cell {
-  max-width: 100px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  @media(max-width: 930px){
+    max-width: 150px;
+  }
 }
 
 .little-cell{
   max-width: 50px;
   overflow: hidden;
+}
+
+.action-cell{
+  max-width: 50px;
+  overflow: hidden;
+}
+
+.sm-hidden{
+  @media(max-width: 630px){
+    display: none;
+  }
 }
 
 .search-container {
@@ -72,3 +85,9 @@
   flex-direction: column;
 }
 
+.users-icon {
+  padding: 4px;
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 18%;
+}
