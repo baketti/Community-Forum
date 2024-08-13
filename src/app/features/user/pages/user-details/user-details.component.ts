@@ -1,8 +1,14 @@
+/* 
+HERE I HAVE EXPERIMENTED TWO DIFFERENT APPROACHES TO RETRIEVE DATA:
+ - USERS => taking the observable and working with it;
+ - POSTS => working directly with the result returned from the observable;
+*/
 import { IPost } from '@/app/models/Post';
 import { IUser } from '@/app/models/User';
 import { UsersService } from '@/app/services/users/users.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-user-details',
@@ -10,7 +16,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './user-details.component.scss'
 })
 export class UserDetailsComponent implements OnInit {
-  user!: IUser;
+  user$ = new Observable<IUser>();
   userPosts: IPost[] = [];
 
   constructor(
@@ -23,13 +29,11 @@ export class UserDetailsComponent implements OnInit {
       const userId = +params['id'];
       this.getUserDetails(userId);
       this.getUserPosts(userId);
-    });
+    })
   }
 
   getUserDetails(userId:number): void {
-    this.usersService.getUserDetails(userId).subscribe(user => {
-       this.user = user;
-    });
+    this.user$ = this.usersService.getUserDetails(userId);
   }
 
   getUserPosts(userId:number): void {

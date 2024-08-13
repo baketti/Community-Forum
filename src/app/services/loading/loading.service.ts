@@ -3,15 +3,7 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map } from 'rxjs';
 import { SpinnerComponent } from '@/app/shared/components/spinner/spinner.component';
-
-interface SpinnerState {
-  count: number;
-}
-
-interface LoadingState {
-  spinnerId: string;  
-  show: boolean;
-}
+import { SpinnerState, LoadingState } from '@/utils/types';
 
 @Injectable({
   providedIn: 'root'

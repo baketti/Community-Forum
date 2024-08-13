@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IUser } from '@/app/models/User';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-user-card',
@@ -8,7 +9,7 @@ import { IUser } from '@/app/models/User';
 })
 export class UserCardComponent implements OnInit {
 
-  @Input() user!:IUser;
+  @Input() user$!:Observable<IUser>;
   maleImg: string = 'assets/images/male.svg';
   femaleImg: string = 'assets/images/female.svg';
 

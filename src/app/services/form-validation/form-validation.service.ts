@@ -23,8 +23,7 @@ export class FormValidationService {
       : formField?.hasError('email')
       ? 'Must be email'
       : formField?.hasError('minlength')
-      ? `${fieldName} should contain at least
-      ${fieldErrors?.['minlength'].requiredLength} characters`
+      ? `${fieldName} should contain at least ${fieldErrors?.['minlength'].requiredLength} characters`
       : formField?.hasError('maxlength')
       ? `${fieldName} should contain max ${fieldErrors?.['maxlength'].requiredLength} characters`
       : formField?.hasError('notUnique')

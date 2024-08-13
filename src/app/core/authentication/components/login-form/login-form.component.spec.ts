@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { LoginFormComponent } from './login-form.component';
 import { AuthenticationService } from '@/app/services/authentication/authentication.service';
 import { FormValidationService } from '@/app/services/form-validation/form-validation.service';
@@ -13,10 +13,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { provideRouter, RouterModule } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { By } from '@angular/platform-browser';
 
 describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
   let fixture: ComponentFixture<LoginFormComponent>;
+  let el: DebugElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -47,9 +49,15 @@ describe('LoginFormComponent', () => {
     fixture = TestBed.createComponent(LoginFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    el = fixture.debugElement;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should contain "Sign in" title', () => {
+    const title = el.query(By.css('h2')).nativeElement;
+    expect(title.textContent).toContain("Sign in");
   });
 });

@@ -13,18 +13,15 @@ export class IconsService {
   ) {}
 
   public registerIcons(): void {
-    this.addIcon('gender_female', 'assets/gender-female.svg');
-    this.addIcon('gender_male', 'assets/gender-male.svg');
-    this.addIcon('login', 'assets/enter.svg');
-    this.addIcon('logout', 'assets/exit.svg');
-    this.addIcon('send', 'assets/send-2.svg');
-    this.addIcon('active', 'assets/user-check.svg');
-    this.addIcon('inactive', 'assets/user-blocked.svg');
-    this.addIcon('home', 'assets/home-3.svg');
-    this.addIcon('users', 'assets/users.svg');
-    this.addIcon('filter', 'assets/filter.svg');
-    this.addIcon('filter-reset', 'assets/filter-reset.svg');
-    this.addIcon('x', 'assets/x.svg');
+    this.addIcon('gender_female', 'assets/icons/gender-female.svg');
+    this.addIcon('gender_male', 'assets/icons/gender-male.svg');
+    this.addIcon('login', 'assets/icons/enter.svg');
+    this.addIcon('logout', 'assets/icons/exit.svg');
+    this.addIcon('send', 'assets/icons/send-2.svg');
+    this.addIcon('active', 'assets/icons/user-check.svg');
+    this.addIcon('inactive', 'assets/icons/user-blocked.svg');
+    this.addIcon('home', 'assets/icons/home-3.svg');
+    this.addIcon('users', 'assets/icons/users.svg');
   }
 
   private addIcon(alias: string, url: string): void {

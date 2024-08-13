@@ -1,7 +1,5 @@
 <section class="user-details-container">
-    @if(user){
-        <app-user-card [user]="user"></app-user-card>
-    }
+    <app-user-card [user$]="user$"></app-user-card>
     @if (userPosts.length) {
         <h3>{{userPosts.length}} Post{{userPosts.length > 1 ? 's':''}}</h3>
         @for (post of userPosts; track $index) {

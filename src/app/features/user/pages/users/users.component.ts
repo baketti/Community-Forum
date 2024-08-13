@@ -9,19 +9,8 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { debounceTime, Subscription } from 'rxjs';
 import { CreateUserDialogComponent } from '../../components/create-user-dialog/create-user-dialog.component';
 import { FormGroup, FormControl } from '@angular/forms';
-
-interface Filters {
-  searchstr: string;
-  gender: string;
-  status: string;
-}
-
-function isEmail(str: string): boolean {
-  if (str.includes('@')) {
-    return true;
-  }
-  return false;
-}
+import { isEmail } from '@/utils/functions';
+import { Filters } from '@/utils/types';
 
 @Component({
   selector: 'app-users',

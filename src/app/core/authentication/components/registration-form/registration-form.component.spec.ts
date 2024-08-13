@@ -10,14 +10,16 @@ import { provideRouter, Router, RouterModule } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from '@/app/shared/shared.module';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { By } from '@angular/platform-browser';
 
 describe('RegistrationFormComponent', () => {
   let component: RegistrationFormComponent;
   let fixture: ComponentFixture<RegistrationFormComponent>;
+  let el: DebugElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -47,9 +49,15 @@ describe('RegistrationFormComponent', () => {
     fixture = TestBed.createComponent(RegistrationFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    el = fixture.debugElement;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should contain "Sign up" title', () => {
+    const title = el.query(By.css('h2')).nativeElement;
+    expect(title.textContent).toContain("Sign up");
   });
 });

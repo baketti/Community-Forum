@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { forkJoin, Observable, of, switchMap } from 'rxjs';
-import { IPost } from '@/app/models/Post';
+import { Observable } from 'rxjs';
+import { IPost, Post } from '@/app/models/Post';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { ApisHelperService } from '../apis-helper/apis-helper.service';
-import { UsersService } from '../users/users.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +16,9 @@ export class PostsService {
     private http: HttpClient,
     private authSrv: AuthenticationService,
     private apisHelperSrv: ApisHelperService,
-    private usersService: UsersService
   ) { }
 
-  postPost(post: IPost): Observable<IPost> {
+  postPost(post: Post): Observable<IPost> {
     const { id } = this.authSrv.getCurrentUser(); 
     return this.http.post<IPost>(`
       ${this.baseUrl}users/${id}/posts`, 

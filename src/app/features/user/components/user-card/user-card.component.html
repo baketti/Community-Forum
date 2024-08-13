@@ -1,20 +1,18 @@
-@if(user){
-  <mat-card class="user-card">
-    <mat-card-header class="user-card-header">
-      <img 
-        mat-card-image 
-        width="300"
-        height="300"
-        [ngSrc]="user.gender === 'male' ? maleImg : femaleImg"
-        priority
-      >
-      <mat-card-content class="user-card-content">
-        <h2>{{user.name}}</h2>
-        <p>{{user.email}}</p>
-      </mat-card-content>
-    </mat-card-header>
-    <mat-icon class="user-status status-icon" svgIcon="{{user.status}}" [appUserIcons]="user.status"></mat-icon>
-  </mat-card>
-}
+<mat-card class="user-card" *ngIf="user$ | async as user">
+  <mat-card-header class="user-card-header">
+    <img 
+      mat-card-image 
+      width="300"
+      height="300"
+      [ngSrc]="user.gender === 'male' ? maleImg : femaleImg"
+      priority
+    >
+    <mat-card-content class="user-card-content">
+      <h2>{{user.name}}</h2>
+      <p>{{user.email}}</p>
+    </mat-card-content>
+  </mat-card-header>
+  <mat-icon class="user-status status-icon" svgIcon="{{user.status}}" [appUserIcons]="user.status"></mat-icon>
+</mat-card>
                   
               

@@ -1,4 +1,4 @@
-import { IPost } from '@/app/models/Post';
+import { IPost, Post } from '@/app/models/Post';
 import { FormValidationService } from '@/app/services/form-validation/form-validation.service';
 import { LoadingService } from '@/app/services/loading/loading.service';
 import { SnackbarMessageService } from '@/app/services/notification/snackbar-message.service';
@@ -44,7 +44,7 @@ export class CreatePostDialogComponent {
   }
 
   onSubmit():void {
-    const newPost = this.newPostForm.value;
+    const newPost: Post = this.newPostForm.value;
     this.postSrv.postPost(newPost).subscribe({
       next: this.handlePostSubmit.bind(this),
       error: this.handlePostSubmitError.bind(this)
@@ -56,7 +56,7 @@ export class CreatePostDialogComponent {
     this.paginationSrv.setPaginationAfterCreate();
     this.snackMessage.show({
       message:"Post created successfully!",
-      duration: 5000
+      duration: 3000
     });
   }
 
@@ -64,7 +64,7 @@ export class CreatePostDialogComponent {
     this.closeDialog(null);
     this.snackMessage.show({
       message:"Error while creating post",
-      duration: 5000
+      duration: 3000
     });
   }
 

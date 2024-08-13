@@ -16,17 +16,23 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         if (err.status === 401) {
           console.error('Unauthorized request:', err);
           router.navigate(['error/401']); 
+          snackMessage.show({
+            message: 'You are not authorized, please login first',
+          });
           authService.logout();
         } else if (err.status === 500) {
           console.error('Internal Server Error:', err);
           router.navigate(['error/500']);
+          snackMessage.show({
+            message: 'Network error, check your connection'
+          });
         } else if (err.status === 404 || err.status === 0) {
-          console.error('not found error:', err);
+          console.error('Not found error:', err);
           snackMessage.show({
             message: err.status === 404 ? 'No data found' : 
             `The initial connection between Cloudflare's network and the origin web server timed out. As a result, the web page can not be displayed. Please try again in a few minutes.`,
           });
-          //router.navigate(['error/404']);
+        //422 error occurs only during registration
         } else if (err.status === 422) {
           console.error('Data validation error:', err);
           const { field, message } = err.error[0];

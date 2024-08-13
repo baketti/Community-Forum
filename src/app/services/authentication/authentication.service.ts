@@ -4,16 +4,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { IUser } from '@/app/models/User';
 import { SnackbarMessageService } from '../notification/snackbar-message.service';
-
-export interface AuthData {
-  email: string;
-  token: string;
-}
-
-interface SessionDataParams {
-  token?: string;
-  user?: IUser;
-}
+import { AuthData, SessionDataParams } from '@/utils/types';
 
 @Injectable({
   providedIn: 'root'
@@ -33,26 +24,28 @@ export class AuthenticationService {
     const { email, token } = data;
     this.setSessionData({token});
     this.usersService.findByEmail(email.trim()).subscribe({
-      next: (res) => {
-        const user = res[0];
-        if(user){
-          this.setSessionData({user});
-          this.authenticated.next(true);
-          this.snackMessage.show({
-            message: "Successfully logged in!",
-            duration: 5000
-          });
-          this.router.navigate(['app/users']); 
-        }else{
-          this.authenticated.next(false);
-          this.snackMessage.show({
-            message: "Invalid email!",
-            duration: 3000
-          });
-        }
-      },
+      next: this.handleLogin.bind(this),  
       error: console.error
     });
+  }
+
+  handleLogin(res:IUser[]){
+    const user = res[0];
+    if(user){
+      this.setSessionData({user});
+      this.authenticated.next(true);
+      this.snackMessage.show({
+        message: "Successfully logged in",
+        duration: 3000
+      });
+      this.router.navigate(['app/users']); 
+    }else{
+      this.authenticated.next(false);
+      this.snackMessage.show({
+        message: "Invalid email",
+        duration: 3000
+      });
+    }
   }
 
   setSessionData = (params: SessionDataParams): void => {

@@ -1,12 +1,6 @@
+import { SnackData } from '@/utils/types';
 import { Injectable } from '@angular/core';
-import {MatSnackBar} from '@angular/material/snack-bar'
-
-export interface SnackData {
-  message: string;
-  duration?: number;
-  action?: string;
-  type?: 'success' | 'error' | 'warning' | 'info';
-}
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'

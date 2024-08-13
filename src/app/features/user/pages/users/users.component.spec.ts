@@ -32,8 +32,8 @@ describe('UsersComponent', () => {
         MatRadioModule
       ],
       providers: [
-        UsersService,
         MatDialog,
+        UsersService,
         PaginationService,
         DialogHandlerService,
         LoadingService,
@@ -52,4 +52,5 @@ describe('UsersComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+ 
 });

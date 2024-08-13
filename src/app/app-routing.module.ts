@@ -1,10 +1,10 @@
 import { RouteGuardService } from '@/app/services/guards/route-guard/route-guard.service';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AppComponent } from './app.component';
+import { HomeComponent } from './core/components/home/home.component';
 
 const routes: Routes = [
-  { path: '', component: AppComponent },//insert here HomeComponent
+  { path: '', component: HomeComponent },
   { 
     path: 'app', 
     loadChildren: () => import('./features/features.module'),

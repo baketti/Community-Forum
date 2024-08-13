@@ -1,11 +1,6 @@
+import { Pagination } from '@/utils/types';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-
-interface Pagination {
-  totalItems: number;
-  per_page?: number;
-  page?: number;
-}
 
 @Injectable({
   providedIn: 'root'

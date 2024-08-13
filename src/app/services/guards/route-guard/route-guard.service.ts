@@ -17,7 +17,6 @@ export class RouteGuardService {
     if(this.authService.isLogged()) return true; 
     return this.authService.isAuthenticated$.pipe(
       map(authenticated => {
-        console.log('authenticated', authenticated)
         if (!authenticated) {
           this.router.navigate(['/auth/login']);
           return false;

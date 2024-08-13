@@ -66,7 +66,7 @@ export class RegistrationFormComponent {
   onRegisterSubmit() {
     this.usersService.postUser(this.registerForm.value).subscribe({
       next: this.handlePostUser.bind(this),
-      error: this.handlePostUserError.bind(this)
+      error: console.error
     });
   }
 
@@ -75,14 +75,7 @@ export class RegistrationFormComponent {
     this.router.navigate(['auth/login']);
     this.snackMessage.show({
       message:"User registered successfully",
-      duration: 5000
-    });
-  }
-
-  handlePostUserError(error: any): void {
-    this.snackMessage.show({
-      message:"An error occurred during user registration",
-      duration: 5000
+      duration: 3000
     });
   }
 }

@@ -61,7 +61,7 @@ export class PostCommentFormComponent {
     this.commentCreated.emit(comment);
     this.snackMessage.show({
       message: "Comment created successfully",
-      duration: 5000
+      duration: 3000
     });
   }
 

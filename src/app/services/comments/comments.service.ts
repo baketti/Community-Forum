@@ -26,8 +26,7 @@ export class CommentsService {
 
   getComments(postId: number):Observable<IComment[]> {
     return this.http.get<IComment[]>(
-      this.url(postId),
-      //this.apisHelperSrv.addXSpinnerIdHeader("get-comments")
+      this.url(postId)
     );
   }  
 }

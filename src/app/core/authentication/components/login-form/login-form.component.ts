@@ -1,8 +1,9 @@
-import { AuthenticationService, AuthData } from '@/app/services/authentication/authentication.service';
+import { AuthenticationService } from '@/app/services/authentication/authentication.service';
 import { FormValidationService } from '@/app/services/form-validation/form-validation.service';
 import { LoadingService } from '@/app/services/loading/loading.service';
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AuthData } from '@/utils/types';
 
 @Component({
   selector: 'app-login-form',

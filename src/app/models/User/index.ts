@@ -6,12 +6,12 @@ export interface IUser {
     status: UserStatus
 }
 
-enum UserStatus {
+export enum UserStatus {
     ACTIVE = 'active',
     INACTIVE = 'inactive'
 }
 
-enum UserGender {
+export enum UserGender {
     MALE = 'male',
     FEMALE = 'female'
 }
