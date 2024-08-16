@@ -20,7 +20,6 @@ export class DeleteUserDialogComponent {
     public dialogRef: MatDialogRef<DeleteUserDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: number,
     public loadingSrv: LoadingService,
-    private snackMessage: SnackbarMessageService,
     private store: Store<AppState>,
     private actions$: Actions,
   ) { 

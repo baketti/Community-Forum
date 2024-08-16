@@ -8,6 +8,9 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 import { UserCardComponent } from '../../components/user-card/user-card.component';
 import { SharedModule } from '@/app/shared/shared.module';
+import { StoreModule } from '@ngrx/store';
+import { mockReducer } from '@/app/app.component.spec';
+import { EffectsModule } from '@ngrx/effects';
 
 describe('UserDetailsComponent', () => {
   let component: UserDetailsComponent;
@@ -29,7 +32,9 @@ describe('UserDetailsComponent', () => {
       ],
       imports: [
         RouterModule.forRoot([]),
-        SharedModule
+        SharedModule,
+        StoreModule.forRoot({ mock: mockReducer }),
+        EffectsModule.forRoot([]),
       ],
       providers: [
         provideHttpClient(),

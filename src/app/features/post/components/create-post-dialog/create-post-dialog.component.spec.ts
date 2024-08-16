@@ -13,16 +13,24 @@ import { SharedModule } from '@/app/shared/shared.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { of, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { IPost } from '@/app/models/Post';
 import { StoreModule } from '@ngrx/store';
 import { mockReducer } from '@/app/app.component.spec';
 import { EffectsModule } from '@ngrx/effects';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { postPostRequest, postPostResponseFailure, postPostResponseSuccess } from '../../store/posts/posts.actions';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { DialogHandlerService } from '@/app/services/dialog-handler/dialog-handler.service';
 
 describe('CreatePostDialogComponent', () => {
   let component: CreatePostDialogComponent;
   let fixture: ComponentFixture<CreatePostDialogComponent>;
-  let postSrv: PostsService;
+  let store: MockStore;
+  let actions$: Observable<any>;
+  let dialogHandlerSrv: jasmine.SpyObj<DialogHandlerService>;
+  let dialogRef: jasmine.SpyObj<MatDialogRef<CreatePostDialogComponent>>;
+
   const post: IPost = { 
     id: 1, 
     title: 'Test Post', 
@@ -30,6 +38,8 @@ describe('CreatePostDialogComponent', () => {
     user_id: 1
   };
   beforeEach(async () => {
+    const dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['close']);
+    const dialogHandlerSrvSpy = jasmine.createSpyObj('DialogHandlerService', ['setIsDialogClosed']);
     await TestBed.configureTestingModule({
       declarations: [CreatePostDialogComponent],
       imports: [
@@ -47,10 +57,13 @@ describe('CreatePostDialogComponent', () => {
         PostsService,
         SnackbarMessageService,
         FormValidationService,
-        { provide: MatDialogRef, useValue: { close: jasmine.createSpy('close') } },
+        { provide: MatDialogRef, useValue: dialogRefSpy },
         { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: DialogHandlerService, useValue: dialogHandlerSrvSpy },
         provideHttpClientTesting(),
-        provideHttpClient()
+        provideHttpClient(),
+        provideMockStore(),
+        provideMockActions(() => actions$),
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
@@ -58,7 +71,9 @@ describe('CreatePostDialogComponent', () => {
 
     fixture = TestBed.createComponent(CreatePostDialogComponent);
     component = fixture.componentInstance;
-    postSrv = TestBed.inject(PostsService);
+    dialogRef = TestBed.inject(MatDialogRef) as jasmine.SpyObj<MatDialogRef<CreatePostDialogComponent>>;
+    dialogHandlerSrv = TestBed.inject(DialogHandlerService) as jasmine.SpyObj<DialogHandlerService>;
+    store = TestBed.inject(MockStore);
     fixture.detectChanges();
   });
 
@@ -83,35 +98,55 @@ describe('CreatePostDialogComponent', () => {
     expect(component.isDisabled).toBeFalse();
   });
 
-  it('should call postSrv.postPost on form submit', () => {
-    spyOn(postSrv, 'postPost').and.returnValue(of(post));
+  it('should dispatch postPostRequest on form submit', () => {
+    spyOn(store, 'dispatch');
     component.newPostForm.controls['title'].setValue('Sample Title');
     component.newPostForm.controls['body'].setValue('Sample Body');
+    const expectedAction = postPostRequest({ post: component.newPostForm.value });
+    
     component.onSubmit();
-    expect(postSrv.postPost).toHaveBeenCalled();
+    
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-/*   it('should handle successful post creation', () => {
-    spyOn(postSrv, 'postPost').and.returnValue(of(post));
-    spyOn(component, 'handlePostSubmit');
+  it('should handle successful post creation', () => {
+    spyOn(store, 'dispatch');
+    spyOn(component, 'closeDialog');
+    actions$ = of(postPostResponseSuccess({ post }));
+  
+    component.subscribeActions();
     component.onSubmit();
-    expect(component.handlePostSubmit).toHaveBeenCalled();
+  
+    expect(store.dispatch).toHaveBeenCalledWith(postPostRequest({ post: component.newPostForm.value }));
+    expect(component.closeDialog).toHaveBeenCalledWith(post);
   });
 
   it('should handle post creation error', () => {
-    spyOn(postSrv, 'postPost').and.returnValue(throwError(() => new Error('Error')));
-    spyOn(component, 'handlePostSubmitError');
+    spyOn(store, 'dispatch');
+    spyOn(component, 'closeDialog');
+    const error = new Error('Error');
+    actions$ = of(postPostResponseFailure({ err: error }));
+  
+    component.subscribeActions();
     component.onSubmit();
-    expect(component.handlePostSubmitError).toHaveBeenCalled();
-  }); */
+  
+    expect(store.dispatch).toHaveBeenCalledWith(postPostRequest({ post: component.newPostForm.value }));
+    expect(component.closeDialog).toHaveBeenCalledWith(null);
+  });
 
- /*  it('should close the dialog on successful post creation', () => {
-    component.handlePostSubmit(post);
-    expect(component.dialogRef.close).toHaveBeenCalledWith(post);
+  it('should close the dialog on successful post creation', () => {
+    spyOn(component, 'closeDialog').and.callThrough();
+    actions$ = of(postPostResponseSuccess({ post }));
+    component.subscribeActions();
+    expect(component.closeDialog).toHaveBeenCalledWith(post);
+    expect(dialogRef.close).toHaveBeenCalledWith(post);
   });
 
   it('should close the dialog on post creation error', () => {
-    component.handlePostSubmitError(new Error('Error'));
-    expect(component.dialogRef.close).toHaveBeenCalledWith(null);
-  }); */
+    spyOn(component, 'closeDialog').and.callThrough();
+    actions$ = of(postPostResponseFailure({ err:'Error' }));
+    component.subscribeActions();
+    expect(component.closeDialog).toHaveBeenCalledWith(null);
+    expect(dialogRef.close).toHaveBeenCalledWith(null);
+  });
 });

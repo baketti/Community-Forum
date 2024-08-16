@@ -1,21 +1,24 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpInterceptorFn, HttpRequest, HttpHandler, HttpEvent, HttpResponse, HttpHeaders, HttpHandlerFn } from '@angular/common/http';
+import { HttpInterceptorFn, HttpRequest, HttpHandlerFn, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { of } from 'rxjs';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { paginationHeadersInterceptor } from './pagination-headers.interceptor';
+import { setPagination } from '@/app/shared/store/pagination/pagination.actions';
 
 describe('paginationHeadersInterceptor', () => {
-  //let paginationServiceSpy: jasmine.SpyObj<PaginationService>;
+  let store: MockStore;
   const interceptor: HttpInterceptorFn = (req, next) => 
     TestBed.runInInjectionContext(() => paginationHeadersInterceptor(req, next));
 
   beforeEach(() => {
-    //const spy = jasmine.createSpyObj('PaginationService', ['setPagination']);
-
     TestBed.configureTestingModule({
       providers: [
-       // { provide: , useValue: spy }
+        provideMockStore()
       ]
     });
+
+    store = TestBed.inject(MockStore);
+    spyOn(store, 'dispatch');
   });
 
   it('should be created', () => {
@@ -34,11 +37,17 @@ describe('paginationHeadersInterceptor', () => {
     });
 
     const req = new HttpRequest('GET', '/users');
-    const next: HttpHandlerFn = () => of(mockResponse)
+    const next: HttpHandlerFn = () => of(mockResponse);
 
     interceptor(req, next).subscribe(event => {
       if (event instanceof HttpResponse) {
-        //expect(paginationServiceSpy.setPagination).toHaveBeenCalledWith(50, 10, 1);
+        expect(store.dispatch).toHaveBeenCalledWith(setPagination({
+          pagination: {
+            totalItems: 50,
+            per_page: 10,
+            page: 1
+          }
+        }));
       }
     });
   });
@@ -55,11 +64,17 @@ describe('paginationHeadersInterceptor', () => {
     });
 
     const req = new HttpRequest('GET', '/posts');
-    const next: HttpHandlerFn = () => of(mockResponse)
+    const next: HttpHandlerFn = () => of(mockResponse);
 
-    interceptor(req,next).subscribe(event => {
+    interceptor(req, next).subscribe(event => {
       if (event instanceof HttpResponse) {
-        //expect(paginationServiceSpy.setPagination).toHaveBeenCalledWith(60, 20, 0);
+        expect(store.dispatch).toHaveBeenCalledWith(setPagination({
+          pagination: {
+            totalItems: 60,
+            per_page: 20,
+            page: 0
+          }
+        }));
       }
     });
   });
@@ -76,11 +91,11 @@ describe('paginationHeadersInterceptor', () => {
     });
 
     const req = new HttpRequest('GET', '/other');
-    const next: HttpHandlerFn = () => of(mockResponse)
+    const next: HttpHandlerFn = () => of(mockResponse);
 
     interceptor(req, next).subscribe(event => {
       if (event instanceof HttpResponse) {
-        //expect(paginationServiceSpy.setPagination).not.toHaveBeenCalled();
+        expect(store.dispatch).not.toHaveBeenCalled();
       }
     });
   });

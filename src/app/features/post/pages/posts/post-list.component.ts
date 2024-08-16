@@ -30,13 +30,13 @@ export class PostListComponent implements OnInit, OnDestroy {
   get isDisabled():boolean{
     return this.searchPostForm.invalid;
   };
-  private subscription: Subscription = new Subscription();
+  subscription: Subscription = new Subscription();
 
   constructor(
     private store: Store<AppState>,
     public dialog: MatDialog,
     public loadingSrv: LoadingService,
-    private dialogHandlerSrv: DialogHandlerService
+    public dialogHandlerSrv: DialogHandlerService
   ) { 
       this.openCreatePostDialog = this.openCreatePostDialog.bind(this);
       this.searchPostForm = this.initSearchPostForm;
@@ -58,7 +58,7 @@ export class PostListComponent implements OnInit, OnDestroy {
     });
   }
 
-  private addSubscriptions(): void {
+  addSubscriptions(): void {
     this.subscription.add(
       this.store.pipe(select(getPagination)).subscribe(pagination => {
         this.totalPosts = pagination.totalItems;

@@ -62,7 +62,7 @@ export class UsersEffects {
                 });
                 return postUserResponseSuccess({ user })
             }),
-            catchError((err) =>  of(postUserResponseFailure({ err })))
+            catchError((err) => of(postUserResponseFailure({ err })))
         ))
     ));
     deleteUserRequest$ = createEffect(() => this.actions$.pipe(

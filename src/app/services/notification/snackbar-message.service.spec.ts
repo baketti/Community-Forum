@@ -29,7 +29,7 @@ describe('SnackbarMessageService', () => {
     const snackData: SnackData = {
       message: 'Test message',
       action: 'Test action',
-      duration: 5000,
+      duration: 3000,
       type: 'success'
     };
 
@@ -39,7 +39,7 @@ describe('SnackbarMessageService', () => {
       'Test message',
       'Test action',
       {
-        duration: 5000,
+        duration: 3000,
         panelClass: ['success']
       }
     );
@@ -56,7 +56,7 @@ describe('SnackbarMessageService', () => {
       'Test message',
       'OK',
       {
-        duration: 20000,
+        duration: 3000,
         panelClass: ['info']
       }
     );

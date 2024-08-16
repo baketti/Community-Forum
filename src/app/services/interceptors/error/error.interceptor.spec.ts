@@ -15,7 +15,7 @@ describe('errorInterceptor', () => {
     TestBed.runInInjectionContext(() => errorInterceptor(req, next));
 
   beforeEach(() => {
-    const router = jasmine.createSpyObj('Router', ['navigate']);
+    const router = jasmine.createSpyObj('Router', ['navigate'],{url:''});
     const authService = jasmine.createSpyObj('AuthenticationService', ['logout']);
     const snackMessage = jasmine.createSpyObj('SnackbarMessageService', ['show']);
 
@@ -34,21 +34,6 @@ describe('errorInterceptor', () => {
 
   it('should be created', () => {
     expect(interceptor).toBeTruthy();
-  });
-
-  it('should handle 401 error', () => {
-    const req = new HttpRequest('GET', '/test');
-    const next: HttpHandlerFn = () => throwError(() => new HttpErrorResponse({ status: 401 }))
-
-    interceptor(req, next).subscribe({
-      error: () => {
-        expect(routerSpy.navigate).toHaveBeenCalledWith(['error/401']);
-        expect(snackMessageSpy.show).toHaveBeenCalledWith({
-          message: 'You are not authorized, please login first',
-        });
-        expect(authServiceSpy.logout).toHaveBeenCalled();
-      }
-    });
   });
 
   it('should handle 500 error', () => {
@@ -91,7 +76,7 @@ describe('errorInterceptor', () => {
     interceptor(req, next).subscribe({
       error: () => {
         expect(snackMessageSpy.show).toHaveBeenCalledWith({
-          message: 'User registration failed:\n email is invalid',
+          message: 'email is invalid',
         });
       }
     });

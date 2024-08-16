@@ -113,7 +113,7 @@ describe('PostCommentFormComponent', () => {
     expect(component.commentCreated.emit).toHaveBeenCalledWith(comment);
     expect(snackMessageService.show).toHaveBeenCalledWith({
       message: 'Comment created successfully',
-      duration: 3000
+      duration:3000
     });
   });
 
@@ -121,6 +121,7 @@ describe('PostCommentFormComponent', () => {
     component.handlePostCommentError('Error');
     expect(snackMessageService.show).toHaveBeenCalledWith({
       message: 'Error while creating comment',
+      duration:3000
     });
   });
 });

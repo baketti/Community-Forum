@@ -34,8 +34,6 @@ interface SnackData {
 
 interface Pagination {
     totalItems: number;
-    /* per_page?: number;
-    page?: number; */
     per_page: number;
     page: number;
 }

@@ -10,6 +10,9 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { mockReducer } from '@/app/app.component.spec';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 describe('CreateUserFormComponent', () => {
   let component: CreateUserFormComponent;
@@ -25,7 +28,9 @@ describe('CreateUserFormComponent', () => {
         SharedModule,
         ReactiveFormsModule,
         MatInputModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        StoreModule.forRoot({ mock: mockReducer }),
+        EffectsModule.forRoot([]),
       ],
       providers: [
         FormValidationService,

@@ -74,11 +74,6 @@ describe('UsersTableComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  
-/*   it('should set and get users', () => {
-    component.users = users;
-    expect(component.users).toEqual(users);
-  }); */
 
   it('should call handleRowClick and navigate to user details', () => {
     spyOn(router, 'navigate');
@@ -93,24 +88,9 @@ describe('UsersTableComponent', () => {
       close: null 
     });
     spyOn(dialog, 'open').and.returnValue(dialogRefSpyObj);
-    //spyOn(component, 'updateUsers');
 
     component.openDeleteUserDialog(userId);
     expect(dialog.open).toHaveBeenCalled();
-    //expect(component.updateUsers).toHaveBeenCalledWith(userId);
   });
-
-/*   it('should emit deleteUser event on updateUsers', () => {
-    spyOn(component.deleteUser, 'emit');
-    const userId = 1;
-    component.updateUsers(userId);
-    expect(component.deleteUser.emit).toHaveBeenCalledWith(userId);
-  }); */
-
-/*   it('should detect changes on input change', () => {
-    spyOn(component['cdr'], 'detectChanges');
-    component.ngOnChanges({});
-    expect(component['cdr'].detectChanges).toHaveBeenCalled();
-  }); */
 });
 

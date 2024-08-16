@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { AuthenticationComponent } from './authentication.component';
 import { SharedModule } from '@/app/shared/shared.module';
 import { CommonModule } from '@angular/common';
