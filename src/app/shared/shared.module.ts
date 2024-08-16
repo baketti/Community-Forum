@@ -14,6 +14,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { PostCommentFormComponent } from './components/post/post-comment-form/post-comment-form.component';
 import { PostCommentComponent } from './components/post/post-comment/post-comment.component';
 import { SinglePostComponent } from './components/post/single-post/single-post.component';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { PaginationEffects } from './store/pagination/pagination.effects';
+import { paginationReducer } from './store/pagination/pagination.reducers';
 
 @NgModule({
   declarations: [
@@ -36,7 +40,9 @@ import { SinglePostComponent } from './components/post/single-post/single-post.c
     MatButtonModule,
     MatSelectModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StoreModule.forFeature('pagination', paginationReducer),
+    EffectsModule.forFeature([PaginationEffects]),
   ],
   exports: [
     SpinnerComponent,

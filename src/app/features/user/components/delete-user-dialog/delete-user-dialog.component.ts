@@ -1,10 +1,12 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { IUser } from '@/app/models/User';
-import { UsersService } from '@/app/services/users/users.service';
 import { LoadingService } from '@/app/services/loading/loading.service';
 import { SnackbarMessageService } from '@/app/services/notification/snackbar-message.service';
-import { PaginationService } from '@/app/services/pagination/pagination.service';
+import { deleteUserRequest, deleteUserResponseFailure, deleteUserResponseSuccess } from '@/app/features/user/store/users/users.actions';
+import { Actions, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+import { Subscription, merge } from 'rxjs';
+import { AppState } from '@/app/core/store/app/app.state';
 
 @Component({
   selector: 'app-delete-user-dialog',
@@ -12,39 +14,40 @@ import { PaginationService } from '@/app/services/pagination/pagination.service'
   styleUrl: './delete-user-dialog.component.scss'
 })
 export class DeleteUserDialogComponent {
+  private subscription: Subscription;
+
   constructor(
     public dialogRef: MatDialogRef<DeleteUserDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: number,
-    private usersService: UsersService,
     public loadingSrv: LoadingService,
     private snackMessage: SnackbarMessageService,
-    private paginationSrv: PaginationService
-  ) { } 
+    private store: Store<AppState>,
+    private actions$: Actions,
+  ) { 
+    this.subscription = this.subscribeActions();
+  } 
 
-  handleDelete(userId: number): void {
-    this.usersService.deleteUsersByUserId(userId).subscribe({
-      next: () => this.handleSuccessDelete(userId),
-      error: () => this.handleFailDelete(userId)
+  handleDelete(user_id: number): void {
+    this.store.dispatch(deleteUserRequest({ user_id }))
+  }
+
+  subscribeActions(): Subscription {
+    return merge(
+      this.actions$.pipe(ofType(deleteUserResponseSuccess)),
+      this.actions$.pipe(ofType(deleteUserResponseFailure))
+    ).subscribe(action => {
+      switch(action.type){
+        case(deleteUserResponseSuccess.type):
+          this.closeDialog(action.user_id);
+          break;
+        case(deleteUserResponseFailure.type):
+          this.closeDialog(null);
+          break;        
+      }
     });
   }
 
-  handleSuccessDelete(userId:number):void {
-    this.closeDialog(userId);
-    this.paginationSrv.setPaginationAfterDelete()
-    this.snackMessage.show({
-      message: "User deleted successfully!",
-      duration: 5000
-    });
-  }
-
-  handleFailDelete(userId:number):void {
-    this.closeDialog(userId);
-    this.snackMessage.show({
-      message: "Error while deleting user",
-    });
-  }
-
-  closeDialog(userId:number) {
+  closeDialog(userId:number|null) {
     this.dialogRef.close(userId);
   }
 }

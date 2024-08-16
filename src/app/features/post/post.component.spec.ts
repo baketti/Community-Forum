@@ -19,6 +19,11 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommentsService } from '@/app/services/comments/comments.service';
+import { PostsEffects } from '@/app/features/post/store/posts/posts.effects';
+import { postsReducer } from '@/app/features/post/store/posts/posts.reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { mockReducer } from '@/app/app.component.spec';
 
 describe('PostComponent', () => {
   let component: PostComponent;
@@ -32,6 +37,12 @@ describe('PostComponent', () => {
         PostListComponent
       ],
       imports: [
+        StoreModule.forRoot({ mock: mockReducer }),
+        EffectsModule.forRoot([]),
+        StoreModule.forFeature('posts', postsReducer),
+        EffectsModule.forFeature([
+          PostsEffects
+        ]),
         CommonModule,
         RouterModule,
         PostRoutingModule,

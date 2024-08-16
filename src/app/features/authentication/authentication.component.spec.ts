@@ -14,6 +14,9 @@ import { LoginFormComponent } from './components/login-form/login-form.component
 import { RegistrationFormComponent } from './components/registration-form/registration-form.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { StoreModule } from '@ngrx/store';
+import { mockReducer } from '@/app/app.component.spec';
+import { EffectsModule } from '@ngrx/effects';
 
 describe('AuthenticationComponent', () => {
   let component: AuthenticationComponent;
@@ -29,6 +32,8 @@ describe('AuthenticationComponent', () => {
         LoginComponent
       ],
       imports: [
+        StoreModule.forRoot({ mock: mockReducer }),
+        EffectsModule.forRoot([]),
         CommonModule,
         AuthenticationRoutingModule,
         MatCardModule,

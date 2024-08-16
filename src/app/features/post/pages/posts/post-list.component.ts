@@ -1,14 +1,18 @@
 import { IPost } from '@/app/models/Post';
-import { DialogHandlerService } from '@/app/services/dialog-handler/dialog-handler.service';
 import { LoadingService } from '@/app/services/loading/loading.service';
-import { PaginationService } from '@/app/services/pagination/pagination.service';
-import { PostsService } from '@/app/services/posts/posts.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
-import { debounceTime, Subscription } from 'rxjs';
+import { debounceTime, Observable, Subscription } from 'rxjs';
 import { CreatePostDialogComponent } from '../../components/create-post-dialog/create-post-dialog.component';
+import { select, Store } from '@ngrx/store';
+import { getPostsList } from '@/app/features/post/store/posts/posts.selectors';
+import { AppState } from '@/app/core/store/app/app.state';
+import { getPostsByTitleRequest, getPostsRequest } from '@/app/features/post/store/posts/posts.actions';
+import { updatePagination } from '@/app/shared/store/pagination/pagination.actions';
+import { getPagination } from '@/app/shared/store/pagination/pagination.selectors';
+import { DialogHandlerService } from '@/app/services/dialog-handler/dialog-handler.service';
 
 @Component({
   selector: 'app-posts',
@@ -16,9 +20,8 @@ import { CreatePostDialogComponent } from '../../components/create-post-dialog/c
   styleUrl: './post-list.component.scss'
 })
 export class PostListComponent implements OnInit, OnDestroy {
-  posts: IPost[] = [];
+  posts$: Observable<IPost[]> = this.store.select(getPostsList);
   totalPosts: number = 0;
-  private subscription: Subscription = new Subscription();
   page: number = 0;
   per_page: number = 10;
   private pageSizeOptions: number[] = [5, 10, 25, 100];
@@ -27,76 +30,78 @@ export class PostListComponent implements OnInit, OnDestroy {
   get isDisabled():boolean{
     return this.searchPostForm.invalid;
   };
+  private subscription: Subscription = new Subscription();
 
   constructor(
-    private postsService: PostsService, 
+    private store: Store<AppState>,
     public dialog: MatDialog,
     public loadingSrv: LoadingService,
-    public paginationSrv: PaginationService,
     private dialogHandlerSrv: DialogHandlerService
   ) { 
       this.openCreatePostDialog = this.openCreatePostDialog.bind(this);
-      this.searchPostForm = this.initSearchPostForm
+      this.searchPostForm = this.initSearchPostForm;
+      this.addSubscriptions();
     }
-  
+ 
+  ngOnInit(): void {
+    this.fetchPosts();
+    this.searchPostForm.valueChanges.pipe(
+      debounceTime(1000)).subscribe((value) => {
+        this.fetchPostsByTitle(value.searchStr);
+      }
+    );      
+  }
+   
   private get initSearchPostForm(): FormGroup {
     return new FormGroup({
       searchStr: new FormControl(''),
     });
   }
 
-  ngOnInit(): void {
-    this.fetchPosts();
+  private addSubscriptions(): void {
     this.subscription.add(
-      this.paginationSrv.pagination$.subscribe(pagination => {
+      this.store.pipe(select(getPagination)).subscribe(pagination => {
         this.totalPosts = pagination.totalItems;
-        this.per_page = pagination.per_page || 0;
-        this.page = pagination.page || 0;
-      })
-    );
-    this.searchPostForm.valueChanges.pipe(
-      debounceTime(1000)).subscribe(() => {
-        this.fetchPostsByTitle();
+        this.per_page = pagination.per_page;
+        this.page = pagination.page;
+        this.updatePageSizeOptions();
+      }),
+    )
+    this.posts$.subscribe((posts)=> {
+      if(!posts.length && this.totalPosts){
+        this.refresh();
       }
-    );
+    })
   }
 
   fetchPosts(): void {
     const { page, per_page } = this;
-    this.postsService.getPosts(page+1, per_page).subscribe({
-      next: this.handleResponse.bind(this),
-      error: console.error
-    });
+    this.store.dispatch(getPostsRequest({
+      page: page+1, per_page
+    }))
   }
   
-  fetchPostsByTitle(): void {
+  fetchPostsByTitle(searchStr:string): void {
     const { page, per_page } = this;
-    const { searchStr } = this.searchPostForm.value;
-    this.postsService.getPostsByTitle(searchStr,page+1, per_page).subscribe({
-      next: this.handleResponse.bind(this),
-      error: console.error
-    });
+    this.store.dispatch(getPostsByTitleRequest({
+      searchStr, page: page+1, per_page
+    }))
   }
 
   refresh(): void {
     if(this.hasActiveFilterByTitle()){
-      this.fetchPostsByTitle()
+      const { searchStr } = this.searchPostForm.value;
+      this.fetchPostsByTitle(searchStr)
     }else{
       this.fetchPosts();
     }
   }
   
-  handleResponse(posts: IPost[]): void {
-    if(!posts.length && this.totalPosts){
-      this.refresh();
-    }
-    this.posts = posts;
-    this.updatePageSizeOptions();
-  }
-
   onPageChange(event: PageEvent) {
     const { pageIndex, pageSize } = event
-    this.paginationSrv.updatePagination(pageIndex, pageSize);
+    this.store.dispatch(updatePagination({
+      page: pageIndex, per_page: pageSize
+    }));
     this.refresh();
   }
 
@@ -107,7 +112,8 @@ export class PostListComponent implements OnInit, OnDestroy {
   }
 
   hasActiveFilterByTitle(): boolean {
-    if(!!this.searchPostForm.value) {
+    const { searchStr } = this.searchPostForm.value;
+    if(!!searchStr) {
       return true;
     }
     return false;
@@ -115,20 +121,12 @@ export class PostListComponent implements OnInit, OnDestroy {
 
   openCreatePostDialog() {
     this.dialogHandlerSrv.setIsDialogOpened();
-    const dialogRef = this.dialog.open(CreatePostDialogComponent,{
+    this.dialog.open(CreatePostDialogComponent,{
       width: '350px',
       data: {}
-    });
-    dialogRef.afterClosed().subscribe(post => {
+    }).afterClosed().subscribe(()=>{
       this.dialogHandlerSrv.setIsDialogClosed();
-      if(post){
-        this.updatePosts(post);
-      }
-    });
-  }
-
-  updatePosts(post: IPost) {
-    this.posts = [post, ...this.posts];
+    })
   }
 
   ngOnDestroy() {

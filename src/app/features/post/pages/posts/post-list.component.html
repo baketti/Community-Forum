@@ -11,7 +11,7 @@
     </form>
 </mat-card>
 <div class="posts-list">
-    @for(post of posts; track $index){
+    @for(post of (posts$|async); track $index){
         <app-single-post [post]="post"></app-single-post>
     }
 </div>

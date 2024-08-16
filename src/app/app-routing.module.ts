@@ -1,7 +1,7 @@
 import { RouteGuardService } from '@/app/services/guards/route-guard/route-guard.service';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './core/components/home/home.component';
+import { HomeComponent } from './features/home/home.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -12,7 +12,7 @@ const routes: Routes = [
   },
   { 
     path: 'auth', 
-    loadChildren: () => import('./core/authentication/authentication.module')
+    loadChildren: () => import('./features/authentication/authentication.module')
   }, 
   { path: '**', redirectTo: 'app/errors' }
 ];

@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PostListComponent } from './post-list.component';
 import { DialogHandlerService } from '@/app/services/dialog-handler/dialog-handler.service';
 import { LoadingService } from '@/app/services/loading/loading.service';
-import { PaginationService } from '@/app/services/pagination/pagination.service';
 import { PostsService } from '@/app/services/posts/posts.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -15,6 +14,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StoreModule } from '@ngrx/store';
+import { mockReducer } from '@/app/app.component.spec';
+import { EffectsModule } from '@ngrx/effects';
 
 describe('PostListComponent', () => {
   let component: PostListComponent;
@@ -24,6 +26,8 @@ describe('PostListComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [PostListComponent],
       imports: [
+        StoreModule.forRoot({ mock: mockReducer }),
+        EffectsModule.forRoot([]),
         MatDialogModule,
         ReactiveFormsModule,
         SharedModule,
@@ -35,7 +39,6 @@ describe('PostListComponent', () => {
       providers: [
         PostsService,
         LoadingService,
-        PaginationService,
         DialogHandlerService,
         provideHttpClient(),
         provideHttpClientTesting()

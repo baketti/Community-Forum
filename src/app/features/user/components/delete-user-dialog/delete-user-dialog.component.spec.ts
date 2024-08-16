@@ -4,12 +4,12 @@ import { DeleteUserDialogComponent } from './delete-user-dialog.component';
 import { FormValidationService } from '@/app/services/form-validation/form-validation.service';
 import { LoadingService } from '@/app/services/loading/loading.service';
 import { SnackbarMessageService } from '@/app/services/notification/snackbar-message.service';
-import { PaginationService } from '@/app/services/pagination/pagination.service';
 import { UsersService } from '@/app/services/users/users.service';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { StoreModule } from '@ngrx/store';
 
 describe('DeleteUserDialogComponent', () => {
   let component: DeleteUserDialogComponent;
@@ -19,14 +19,14 @@ describe('DeleteUserDialogComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [DeleteUserDialogComponent],
       imports: [
-        MatDialogModule
+        MatDialogModule,
+        StoreModule.forRoot({})
       ],
       providers: [
         LoadingService,
         UsersService,
         SnackbarMessageService,
         FormValidationService,
-        PaginationService,
         { provide: MatDialogRef, useValue: {} },
         { provide: MAT_DIALOG_DATA, useValue: {} },
         provideHttpClientTesting(),

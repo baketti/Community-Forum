@@ -1,52 +1,57 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { RegistrationFormComponent } from './registration-form.component';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
+import { LoginFormComponent } from './login-form.component';
+import { AuthenticationService } from '@/app/services/authentication/authentication.service';
 import { FormValidationService } from '@/app/services/form-validation/form-validation.service';
 import { LoadingService } from '@/app/services/loading/loading.service';
-import { UsersService } from '@/app/services/users/users.service';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideRouter, Router, RouterModule } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from '@/app/shared/shared.module';
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
+import { SpinnerComponent } from '@/app/shared/components/spinner/spinner.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { provideRouter, RouterModule } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
+import { StoreModule } from '@ngrx/store';
+import { mockReducer } from '@/app/app.component.spec';
+import { EffectsModule } from '@ngrx/effects';
 
-describe('RegistrationFormComponent', () => {
-  let component: RegistrationFormComponent;
-  let fixture: ComponentFixture<RegistrationFormComponent>;
+describe('LoginFormComponent', () => {
+  let component: LoginFormComponent;
+  let fixture: ComponentFixture<LoginFormComponent>;
   let el: DebugElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RegistrationFormComponent],
+      declarations: [
+        LoginFormComponent,
+        SpinnerComponent
+      ],
       imports: [
         MatFormFieldModule,
         SharedModule,
-        MatSelectModule,
         ReactiveFormsModule,
         MatInputModule,
         RouterModule.forRoot([]),
-        BrowserAnimationsModule     
-      ],  
+        StoreModule.forRoot({ mock: mockReducer }),
+        EffectsModule.forRoot([]),
+        BrowserAnimationsModule
+      ],
       providers: [
+        AuthenticationService, 
+        FormValidationService,
+        LoadingService,
         provideHttpClient(),
         provideHttpClientTesting(),
-        FormValidationService,
-        UsersService,
-        LoadingService,
-        Router,
-        provideRouter([])
+        provideRouter([]),
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RegistrationFormComponent);
+    fixture = TestBed.createComponent(LoginFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     el = fixture.debugElement;
@@ -56,8 +61,8 @@ describe('RegistrationFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should contain "Sign up" title', () => {
+  it('should contain "Sign in" title', () => {
     const title = el.query(By.css('h2')).nativeElement;
-    expect(title.textContent).toContain("Sign up");
+    expect(title.textContent).toContain("Sign in");
   });
 });

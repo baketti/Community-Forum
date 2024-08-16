@@ -1,34 +1,38 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RegisterComponent } from './register.component';
+import { LoginComponent } from './login.component';
 import { MatCardModule } from '@angular/material/card';
-import { RegistrationFormComponent } from '../../components/registration-form/registration-form.component';
+import { LoginFormComponent } from '../../components/login-form/login-form.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from '@/app/shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 import { provideRouter, RouterModule } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StoreModule } from '@ngrx/store';
+import { mockReducer } from '@/app/app.component.spec';
+import { EffectsModule } from '@ngrx/effects';
 
-describe('RegisterComponent', () => {
-  let component: RegisterComponent;
-  let fixture: ComponentFixture<RegisterComponent>;
+describe('LoginComponent', () => {
+  let component: LoginComponent;
+  let fixture: ComponentFixture<LoginComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [
-        RegisterComponent,
-        RegistrationFormComponent
+        LoginComponent,
+        LoginFormComponent
       ],
       imports: [
+        StoreModule.forRoot({ mock: mockReducer }),
+        EffectsModule.forRoot([]),
         MatCardModule,
         MatFormFieldModule,
         SharedModule,
-        MatSelectModule,
         ReactiveFormsModule,
         MatInputModule,
         RouterModule.forRoot([]),
@@ -43,7 +47,7 @@ describe('RegisterComponent', () => {
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RegisterComponent);
+    fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

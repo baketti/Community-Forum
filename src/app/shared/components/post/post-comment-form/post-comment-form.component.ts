@@ -57,7 +57,6 @@ export class PostCommentFormComponent {
   }
 
   handlePostComment(comment: IComment): void {
-    console.log("comment:",comment);
     this.commentCreated.emit(comment);
     this.snackMessage.show({
       message: "Comment created successfully",
@@ -68,6 +67,7 @@ export class PostCommentFormComponent {
   handlePostCommentError(error: any): void {
     this.snackMessage.show({
       message: "Error while creating comment",
+      duration: 3000
     });
   }
 }

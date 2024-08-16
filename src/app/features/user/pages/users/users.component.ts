@@ -1,17 +1,23 @@
 import { IUser } from '@/app/models/User';
 import { DialogHandlerService } from '@/app/services/dialog-handler/dialog-handler.service';
 import { LoadingService } from '@/app/services/loading/loading.service';
-import { PaginationService } from '@/app/services/pagination/pagination.service';
-import { UsersService } from '@/app/services/users/users.service';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { debounceTime, Subscription } from 'rxjs';
+import { debounceTime, Observable, Subscription } from 'rxjs';
 import { CreateUserDialogComponent } from '../../components/create-user-dialog/create-user-dialog.component';
 import { FormGroup, FormControl } from '@angular/forms';
 import { isEmail } from '@/utils/functions';
 import { Filters } from '@/utils/types';
-
+import { AppState } from '@/app/core/store/app/app.state';
+import { select, Store } from '@ngrx/store';
+import { getUsersByFiltersRequest, getUsersRequest } from '@/app/features/user/store/users/users.actions';
+import { getUsersList } from '@/app/features/user/store/users/users.selectors';
+import { updatePagination } from '@/app/shared/store/pagination/pagination.actions';
+import { getPagination } from '@/app/shared/store/pagination/pagination.selectors';
+/* Call methods to get users have +1 on page param because 
+while paginator page is an index(it starts from 0)
+go rest api page starts from 1 */
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -19,24 +25,33 @@ import { Filters } from '@/utils/types';
 })
 export class UsersComponent implements OnInit, OnDestroy {
   users: IUser[] = [];
+  users$: Observable<IUser[]> = this.store.select(getUsersList);
   totalUsers: number = 0;
   page: number = 0;
   per_page: number = 10;
   private pageSizeOptions: number[] = [5, 10, 25, 100];
-  page_size_options:number[] = [...this.pageSizeOptions]
+  page_size_options:number[] = [...this.pageSizeOptions];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   private subscription: Subscription = new Subscription();
   searchForm: FormGroup;
 
   constructor(
-    private usersService: UsersService,
+    private store: Store<AppState>,
     public dialog: MatDialog,
-    public paginationSrv: PaginationService,
     private dialogHandlerSrv: DialogHandlerService,
     public loadingSrv: LoadingService
   ) {
-    this.searchForm = this.initSearchForm
+    this.searchForm = this.initSearchForm;
     this.openCreateUserDialog = this.openCreateUserDialog.bind(this);
+    this.addSubscriptions();
+  }
+
+  ngOnInit(): void {
+    this.fetchUsers();
+    this.searchForm.valueChanges.pipe(
+      debounceTime(1000)).subscribe(value => {
+        this.fetchUsersByFilters();
+      })
   }
 
   private get initSearchForm(): FormGroup {
@@ -47,27 +62,25 @@ export class UsersComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {
+  private addSubscriptions(): void {
     this.subscription.add(
-      this.paginationSrv.pagination$.subscribe(pagination => {
+      this.store.pipe(select(getPagination)).subscribe(pagination => {
         this.totalUsers = pagination.totalItems;
-        this.per_page = pagination.per_page || 0;
-        this.page = pagination.page || 0;
-      })
-    );
-    this.searchForm.valueChanges.pipe(
-      debounceTime(1000)).subscribe(value => {
-        this.fetchUsersByFilters();
-      })
-    this.refresh();
+        this.per_page = pagination.per_page;
+        this.page = pagination.page;
+        this.updatePageSizeOptions();
+      }),
+    )
+    this.users$.subscribe((users)=> {
+      if(!users.length && this.totalUsers){
+        this.refresh();
+      }
+    })
   }
 
   fetchUsers(): void {
     const { page, per_page } = this;
-    this.usersService.getUsers(page+1, per_page).subscribe({
-      next: this.handleResponse.bind(this),
-      error: console.error
-    });
+    this.store.dispatch(getUsersRequest({page:page+1,per_page}))
   }
 
   fetchUsersByFilters(): void {
@@ -80,10 +93,11 @@ export class UsersComponent implements OnInit, OnDestroy {
     }else {
       filterObj = {...filters, name: searchstr};
     }
-    this.usersService.getUsersByFilters(filterObj, page+1, per_page).subscribe({
-      next: this.handleResponse.bind(this),
-      error: console.error
-    });
+    this.store.dispatch(getUsersByFiltersRequest({
+      filters: filterObj, 
+      page: page+1,
+      per_page
+    }))
   }
 
   refresh(): void {
@@ -94,17 +108,11 @@ export class UsersComponent implements OnInit, OnDestroy {
     }
   }
 
-  handleResponse(users: IUser[]): void {
-    if(!users.length && this.totalUsers){
-      this.refresh();
-    }
-    this.users = users;
-    this.updatePageSizeOptions();
-  }
-
   onPageChange(event: PageEvent) {
     const { pageIndex, pageSize } = event
-    this.paginationSrv.updatePagination(pageIndex, pageSize);
+    this.store.dispatch(updatePagination({
+      page: pageIndex, per_page: pageSize
+    }));
     this.refresh();
   }
 
@@ -131,24 +139,12 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   openCreateUserDialog() {
     this.dialogHandlerSrv.setIsDialogOpened();
-    const dialogRef = this.dialog.open(CreateUserDialogComponent,{
+    this.dialog.open(CreateUserDialogComponent,{
       width: '350px',
       data: {}
-    });
-    dialogRef.afterClosed().subscribe(user => {
+    }).afterClosed().subscribe(()=>{
       this.dialogHandlerSrv.setIsDialogClosed();
-      if(user){
-        this.updateUsers(user);
-      }
     });
-  }
-
-  updateUsers(user:IUser) {
-    this.users = [user, ...this.users];
-  }
-
-  deleteUser(userId: number){
-    this.users=[...this.users.filter(user => user.id !== userId)];
   }
 
   ngOnDestroy(): void {

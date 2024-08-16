@@ -14,12 +14,17 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     catchError((err: HttpErrorResponse) => {
         if (err.status === 401) {
-          console.error('Unauthorized request:', err);
-          router.navigate(['error/401']); 
-          snackMessage.show({
-            message: 'You are not authorized, please login first',
-          });
-          authService.logout();
+          if (router.url.includes('login')) {
+            snackMessage.show({
+              message: 'Invalid token',
+            });
+          } else {
+            router.navigate(['error/401']); 
+            snackMessage.show({
+              message: 'You are not authorized, please login first',
+            });
+            authService.logout();
+          }
         } else if (err.status === 500) {
           console.error('Internal Server Error:', err);
           router.navigate(['error/500']);
@@ -32,12 +37,11 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             message: err.status === 404 ? 'No data found' : 
             `The initial connection between Cloudflare's network and the origin web server timed out. As a result, the web page can not be displayed. Please try again in a few minutes.`,
           });
-        //422 error occurs only during registration
         } else if (err.status === 422) {
           console.error('Data validation error:', err);
           const { field, message } = err.error[0];
           snackMessage.show({
-            message: `User registration failed:\n ${field} ${message}`,
+            message: `${field} ${message}`,
           });
         } else {
           console.error('HTTP error:', err);

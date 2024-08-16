@@ -23,6 +23,10 @@ import { UserDetailsComponent } from './pages/user-details/user-details.componen
 import { UsersComponent } from './pages/users/users.component';
 import { RouterModule } from '@angular/router';
 import { NgOptimizedImage } from '@angular/common';
+import { UsersEffects } from './store/users/users.effects';
+import { usersReducer } from './store/users/users.reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [
@@ -36,6 +40,10 @@ import { NgOptimizedImage } from '@angular/common';
     UserDetailsComponent,
   ],
   imports: [
+    StoreModule.forFeature('users', usersReducer),
+    EffectsModule.forFeature([
+      UsersEffects
+    ]),
     CommonModule,
     UserRoutingModule,
     RouterModule,

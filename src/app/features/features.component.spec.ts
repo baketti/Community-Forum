@@ -4,6 +4,9 @@ import { FeaturesComponent } from './features.component';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { FeaturesRoutingModule } from './features-routing.module';
+import { StoreModule } from '@ngrx/store';
+import { mockReducer } from '@/app/app.component.spec';
+import { EffectsModule } from '@ngrx/effects';
 
 describe('FeaturesComponent', () => {
   let component: FeaturesComponent;
@@ -15,6 +18,8 @@ describe('FeaturesComponent', () => {
         FeaturesComponent
       ],
       imports: [
+        StoreModule.forRoot({ mock: mockReducer }),
+        EffectsModule.forRoot([]),
         CommonModule,
         FeaturesRoutingModule,
         SharedModule,

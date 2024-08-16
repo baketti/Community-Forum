@@ -8,13 +8,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
     AppbarComponent,
     FooterComponent,
-    HomeComponent,
   ],
   imports: [
     CommonModule,
@@ -23,12 +21,11 @@ import { HomeComponent } from './components/home/home.component';
     MatProgressSpinnerModule,
     MatMenuModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
   ],
   exports: [
     AppbarComponent,
     FooterComponent,
-    HomeComponent
   ]
 })
 export class CoreModule { }

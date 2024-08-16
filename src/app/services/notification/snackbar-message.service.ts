@@ -13,7 +13,7 @@ export class SnackbarMessageService {
     this.snackbar.open(
       snackData?.message, 
       snackData?.action || 'OK', {
-      duration: snackData?.duration || 20000,
+      duration: snackData?.duration || 3000,
       panelClass: [snackData?.type || 'info']
     });
   }

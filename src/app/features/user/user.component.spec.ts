@@ -23,6 +23,11 @@ import { UsersTableComponent } from './components/users-table/users-table.compon
 import { UserDetailsComponent } from './pages/user-details/user-details.component';
 import { UsersComponent } from './pages/users/users.component';
 import { UserRoutingModule } from './user-routing.module';
+import { UsersEffects } from '@/app/features/user/store/users/users.effects';
+import { usersReducer } from '@/app/features/user/store/users/users.reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { mockReducer } from '@/app/app.component.spec';
 
 describe('UserComponent', () => {
   let component: UserComponent;
@@ -41,6 +46,10 @@ describe('UserComponent', () => {
         UserDetailsComponent
       ],
       imports: [
+        StoreModule.forRoot({ mock: mockReducer }),
+        StoreModule.forFeature('users', usersReducer), 
+        EffectsModule.forRoot([]),
+        EffectsModule.forFeature([UsersEffects]), 
         CommonModule,
         UserRoutingModule,
         RouterModule,

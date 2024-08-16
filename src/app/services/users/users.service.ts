@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { IUser } from '@/app/models/User';
 import { IPost } from '@/app/models/Post';
 import { ApisHelperService } from '../apis-helper/apis-helper.service';
+import { Filters } from '@/utils/types';
 
 @Injectable({
   providedIn: 'root'

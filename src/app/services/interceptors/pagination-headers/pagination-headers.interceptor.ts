@@ -1,11 +1,12 @@
 import { HttpInterceptorFn, HttpResponse } from '@angular/common/http';
 import { tap } from 'rxjs';
-import { PaginationService } from '../../pagination/pagination.service';
 import { inject } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { setPagination } from '@/app/shared/store/pagination/pagination.actions';
 
 export const paginationHeadersInterceptor: HttpInterceptorFn = (req, next) => {
-  const paginationSrv = inject(PaginationService);
-
+  const  store = inject(Store);
+  
   function handlePaginationHeaders(response: HttpResponse<any>) {
     const paginationHeaders = {
       limit: response.headers.get('x-pagination-limit'),
@@ -20,7 +21,12 @@ export const paginationHeadersInterceptor: HttpInterceptorFn = (req, next) => {
     if(total <= per_page || page > pages) {
       page = 0;
     }
-    paginationSrv.setPagination(total, per_page, page-1);
+    const pagination = {
+      totalItems: total, 
+      per_page, 
+      page: page-1
+    }
+    store.dispatch(setPagination({pagination}))
   }
   if(req.method === 'GET'){
     return next(req).pipe(

@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UsersComponent } from './users.component';
 import { DialogHandlerService } from '@/app/services/dialog-handler/dialog-handler.service';
 import { LoadingService } from '@/app/services/loading/loading.service';
-import { PaginationService } from '@/app/services/pagination/pagination.service';
 import { UsersService } from '@/app/services/users/users.service';
 import { MatDialog } from '@angular/material/dialog';
 import { provideHttpClient } from '@angular/common/http';
@@ -14,6 +13,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
+import { StoreModule } from '@ngrx/store';
+import { mockReducer } from '@/app/app.component.spec';
+import { EffectsModule } from '@ngrx/effects';
 
 describe('UsersComponent', () => {
   let component: UsersComponent;
@@ -29,12 +31,13 @@ describe('UsersComponent', () => {
         MatIconModule,
         ReactiveFormsModule,
         MatCardModule,
-        MatRadioModule
+        MatRadioModule,
+        StoreModule.forRoot({ mock: mockReducer }),
+        EffectsModule.forRoot([]),
       ],
       providers: [
         MatDialog,
         UsersService,
-        PaginationService,
         DialogHandlerService,
         LoadingService,
         provideHttpClient(),

@@ -14,7 +14,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { CreatePostDialogComponent } from './components/create-post-dialog/create-post-dialog.component';
 import { PostListComponent } from './pages/posts/post-list.component';
-
+import { StoreModule } from '@ngrx/store';
+import { postsReducer } from './store/posts/posts.reducers';
+import { PostsEffects } from './store/posts/posts.effects';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
@@ -23,6 +26,10 @@ import { PostListComponent } from './pages/posts/post-list.component';
     PostListComponent
   ],
   imports: [
+    StoreModule.forFeature('posts', postsReducer),
+    EffectsModule.forFeature([
+      PostsEffects
+    ]),
     CommonModule,
     RouterModule,
     PostRoutingModule,

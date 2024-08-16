@@ -7,7 +7,6 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { IUser, UserGender, UserStatus } from '@/app/models/User';
 

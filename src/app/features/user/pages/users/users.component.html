@@ -28,10 +28,7 @@
       </div>
   </form>
 </mat-card>
-<app-users-table 
-  [users]="users" 
-  (deleteUser)="deleteUser($event)"
-></app-users-table>
+<app-users-table ></app-users-table>
 <mat-paginator 
   #paginator
   [length]="totalUsers"

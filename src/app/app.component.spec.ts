@@ -13,12 +13,25 @@ import { networkInterceptor } from './services/interceptors/network/network.inte
 import { paginationHeadersInterceptor } from './services/interceptors/pagination-headers/pagination-headers.interceptor';
 import { SharedModule } from './shared/shared.module';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { StoreModule } from '@ngrx/store';
+import { Action, createReducer, on } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+
+const initialState = {};
+
+const _mockReducer = createReducer(initialState);
+
+export function mockReducer(state: any, action: Action) {
+  return _mockReducer(state, action);
+}
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
         RouterModule.forRoot([]),
+        StoreModule.forRoot({ mock: mockReducer }),
+        EffectsModule.forRoot([]),
         BrowserModule,
         AppRoutingModule,
         SharedModule,
