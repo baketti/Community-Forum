@@ -1,4 +1,4 @@
-# UsersBmt
+# Users Businness Management Tool
 This project was developed as the final exam for the Start2Impact University Angular course. 
 It is a frontend application designed to work as a management tool for citizens, enabling them to submit and manage their ideas or reports. 
 
@@ -47,7 +47,7 @@ The user logs into the platform by entering a valid email address associated wit
 The login process involves searching for users in the API based on the provided email. Since email addresses are unique, the API returns an array with the user as the first and only element. If the email is valid and exists in the system, the user's data is saved in localStorage, and the user is authenticated and authorized to access the platform.
 
 ### 2- Registration
-To obtain a valid email, the user must first complete the registration process. At this stage, the user has not yet provided their personal 'Go Rest' token. To handle this, the project includes a folder named `environment`, containing a valid API key used solely for the registration API request.
+To obtain a valid email, the user must first complete the registration process. At this stage, the user has not yet provided their personal `Go Rest token`. To handle this, the project includes a folder named `environment`, containing a valid API key used solely for the registration API request.
 
 When the new user form is submitted, the registration request is intercepted, and the bearer token from the `environment` file is set. This is necessary because the user is not yet logged in, and without a token in localStorage, an unauthorized error would occur. This approach ensures the registration process can be completed without authentication issues.
 
@@ -55,15 +55,35 @@ When the new user form is submitted, the registration request is intercepted, an
 
 ### - Authorization Bearer Token
 
-All data manipulation requests (POST, PUT, PATCH, and DELETE) to the Go Rest API require an authorization token. The authInterceptor handles this by intercepting all HTTP requests and adding the bearer token to the request headers. 
+All data manipulation requests `(POST, PUT, PATCH, and DELETE)` to the `Go Rest API` require an `authorization token`. The authInterceptor handles this by intercepting all HTTP requests and adding the bearer token to the request headers. 
 
 ### - App Loading Status
 
-The networkInterceptor manages the application's loading state during API requests. Each request contains an 'X-Spinner-ID' header, which the interceptor captures and passes to the LoadingService. This ensures that only the spinner related to the current request is displayed, managing the loading state needed to handle the user interface while waiting for responses.
+The `networkInterceptor` manages the application's loading state during API requests. Each request contains an `X-Spinner-ID` header, which the interceptor captures and passes to the `LoadingService`. This ensures that only the spinner related to the current request is displayed, managing the loading state needed to handle the user interface while waiting for responses.
+
+### - Notification
+
+Thanks to the `SnackbarMessageService`, messages after http responses are displayed to notice user what's happening.
 
 ### - Pagination
 
-The paginationHeadersInterceptor, captures pagination details from the response headers of API requests. This interceptor extracts key parameters such as the current page, items per page, total pages, and total items from the response headers (x-pagination-*). These values are then normalized and dispatched to the store via the setPagination action, updating the PaginationState. Components that require pagination data retrieve it directly from the store, ensuring that the user interface accurately reflects the current pagination state.
+The `paginationHeadersInterceptor`, captures pagination details from the response headers of API requests. This interceptor extracts key parameters such as the current page, items per page, total pages, and total items from the response headers (`x-pagination-*`). These values are then normalized and dispatched to the store via the `setPagination` action, updating the `PaginationState`. Components that require pagination data retrieve it directly from the store, ensuring that the user interface accurately reflects the current pagination state.
+
+## Services
+
+### - Data Management
+- UsersService
+- PostsService
+- CommentsService
+
+### - Helpers
+- ApisHelperService
+- AuthenticationService
+- DialogHandlerService
+- FormValidationService
+- IconsService
+- LoadingService
+- SnackbarMessageService
 
 ## Users and Posts list
 
