@@ -2,6 +2,8 @@
 This project was developed as the final exam for the Start2Impact University Angular course. 
 It is a frontend application designed to work as a management tool for citizens, enabling them to submit and manage their ideas or reports. 
 
+Below there are the guidelines covering the project structure, the core features, and finally, instructions for setting up the project locally with a quick initial setup.
+
 ## Technologies
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.6.
 - NgRx
@@ -19,6 +21,18 @@ The project is organized into three main modules: core, features, and shared, fo
 - Core: contains essential components, services and configurations that are required throughout the application;
 - Features: houses the primary functionality of the application, including components, services, and routes related to specific features. Each feature is encapsulated within its own module;
 - Shared: includes reusable components and directives that are shared across multiple modules;
+
+## Pages
+
+The `pages` directory, stored within multiple modules, contains components that represent entire views within the application. The main views are:
+
+- Landing page: The introductory page of the application.
+- Login: The user login view.
+- Registration: The user registration view.
+- Users List: Displays the list of users.
+- User Details: Shows detailed information for a specific user.
+- Posts List: Displays the list of posts.
+- Error Views: Handles different error states like Forbidden, Not Found or Network Error.
 
 ## State Management
 
@@ -39,13 +53,25 @@ When the new user form is submitted, the registration request is intercepted, an
 
 ## HTTP Interceptors
 
-### 1- Authorization Bearer Token
+### - Authorization Bearer Token
 
 All data manipulation requests (POST, PUT, PATCH, and DELETE) to the Go Rest API require an authorization token. The authInterceptor handles this by intercepting all HTTP requests and adding the bearer token to the request headers. 
 
-### 2- App Loading Status
+### - App Loading Status
 
 The networkInterceptor manages the application's loading state during API requests. Each request contains an 'X-Spinner-ID' header, which the interceptor captures and passes to the LoadingService. This ensures that only the spinner related to the current request is displayed, managing the loading state needed to handle the user interface while waiting for responses.
+
+### - Pagination
+
+The paginationHeadersInterceptor, captures pagination details from the response headers of API requests. This interceptor extracts key parameters such as the current page, items per page, total pages, and total items from the response headers (x-pagination-*). These values are then normalized and dispatched to the store via the setPagination action, updating the PaginationState. Components that require pagination data retrieve it directly from the store, ensuring that the user interface accurately reflects the current pagination state.
+
+## Users and Posts list
+
+### Search
+
+Components are subscribed to the pagination state object and use local variables to perform requests with the current pagination values. Search functionality is delayed using `RxJs`’s `debounceTime` function, set to approximately 1 second. This delay prevents excessive requests and allows the user to type their desired search string without unpleasant interruptions.
+
+`For users, in addition to text-based search, filters for gender and status can be applied. For posts, the search is solely by title.`
 
 ## Routes
 
