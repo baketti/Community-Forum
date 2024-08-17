@@ -25,9 +25,9 @@ The user logs into the platform by entering a valid email address associated wit
 The login process involves searching for users in the API based on the provided email. Since email addresses are unique, the API returns an array with the user as the first and only element. If the email is valid and exists in the system, the user's data is saved in localStorage, and the user is authenticated and authorized to access the platform.
 
 ### 2- Registration
-To obtain a valid email, the user must first complete the registration process. At this stage, the user has not yet provided their personal 'Go Rest' token. To handle this, the project includes a folder named environment, containing a valid API key used solely for the registration API request.
+To obtain a valid email, the user must first complete the registration process. At this stage, the user has not yet provided their personal 'Go Rest' token. To handle this, the project includes a folder named `environment`, containing a valid API key used solely for the registration API request.
 
-When the new user form is submitted, the registration request is intercepted, and the bearer token from the environment file is set. This is necessary because the user is not yet logged in, and without a token in localStorage, an unauthorized error would occur. This approach ensures the registration process can be completed without authentication issues.
+When the new user form is submitted, the registration request is intercepted, and the bearer token from the `environment` file is set. This is necessary because the user is not yet logged in, and without a token in localStorage, an unauthorized error would occur. This approach ensures the registration process can be completed without authentication issues.
 
 ## HTTP Interceptors
 
@@ -47,8 +47,8 @@ The application's routing is organized to provide a clear and modular structure,
 
 The primary routes configuration in the AppRouting module defines the main entry points of the application:
 - `/`: Redirects to the HomeComponent.
-- `/app`: Loads the features module with lazy loading. Access is protected by RouteGuardService.
-- `/auth`: Loads the authentication module with lazy loading.
+- `/app`: Loads the features module. Access is protected by RouteGuardService.
+- `/auth`: Loads the authentication module.
 - Wildcard Route: Redirects any undefined paths to the error handling module
 
 ### Features Routing
@@ -107,7 +107,7 @@ export const environment = {
 };
 ```
 
-Set `production` property to false in `environment.development.ts`;
+Set `production` property to `false` in `environment.development.ts`;
 
 ## Development server
 

@@ -81,7 +81,7 @@ export class PostListComponent implements OnInit, OnDestroy {
     }))
   }
   
-  fetchPostsByTitle(searchStr:string): void {
+  fetchPostsByTitle(searchStr:string): void {    
     const { page, per_page } = this;
     this.store.dispatch(getPostsByTitleRequest({
       searchStr, page: page+1, per_page
@@ -131,5 +131,6 @@ export class PostListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.totalPosts = 0;
   }
 }
