@@ -1,7 +1,15 @@
 # UsersBmt
+This project was developed as the final exam for the Start2Impact University Angular course. 
+It is a frontend application designed to work as a management tool for citizens, enabling them to submit and manage their ideas or reports. 
 
+## Technologies
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.6.
-
+- NgRx
+- RxJs
+  
+### API
+- GO REST (https://gorest.co.in/)
+  
 ## Project structure
 
 The project is organized into three main modules: core, features, and shared, following Angular project conventions. All modules are loaded using lazy loading to optimize performance and reduce initial load time.
