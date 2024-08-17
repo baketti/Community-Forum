@@ -1,6 +1,6 @@
 import { IUser } from '@/app/models/User';
-import { DialogHandlerService } from '@/app/services/dialog-handler/dialog-handler.service';
-import { LoadingService } from '@/app/services/loading/loading.service';
+import { DialogHandlerService } from '@/app/core/services/dialog-handler/dialog-handler.service';
+import { LoadingService } from '@/app/core/services/loading/loading.service';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';

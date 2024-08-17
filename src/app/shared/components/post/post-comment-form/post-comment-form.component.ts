@@ -1,9 +1,9 @@
 import { IComment } from '@/app/models/Comment';
 import { IUser } from '@/app/models/User';
-import { AuthenticationService } from '@/app/services/authentication/authentication.service';
-import { CommentsService } from '@/app/services/comments/comments.service';
-import { LoadingService } from '@/app/services/loading/loading.service';
-import { SnackbarMessageService } from '@/app/services/notification/snackbar-message.service';
+import { AuthenticationService } from '@/app/core/services/authentication/authentication.service';
+import { CommentsService } from '@/app/core/services/comments/comments.service';
+import { LoadingService } from '@/app/core/services/loading/loading.service';
+import { SnackbarMessageService } from '@/app/core/services/notification/snackbar-message.service';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 

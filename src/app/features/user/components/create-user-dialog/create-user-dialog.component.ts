@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { LoadingService } from '@/app/services/loading/loading.service';
+import { LoadingService } from '@/app/core/services/loading/loading.service';
 import { IUser } from '@/app/models/User';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -11,7 +11,7 @@ import {
   postUserResponseSuccess 
 } from '@/app/features/user/store/users/users.actions';
 import { Subscription, merge } from 'rxjs';
-import { DialogHandlerService } from '@/app/services/dialog-handler/dialog-handler.service';
+import { DialogHandlerService } from '@/app/core/services/dialog-handler/dialog-handler.service';
 import { AppState } from '@/app/core/store/app/app.state';
 
 @Component({

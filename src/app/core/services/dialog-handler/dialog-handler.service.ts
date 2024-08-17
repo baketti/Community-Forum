@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-
+/* Useful for tracking dialog(user/post creation) status to enable or disable the openDialogButton, 
+preventing dialog from being opened multiple times simultaneously.*/
 @Injectable({
   providedIn: 'root'
 })

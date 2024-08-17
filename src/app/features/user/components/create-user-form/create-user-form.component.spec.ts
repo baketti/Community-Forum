@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateUserFormComponent } from './create-user-form.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { LoadingService } from '@/app/services/loading/loading.service';
-import { FormValidationService } from '@/app/services/form-validation/form-validation.service';
+import { LoadingService } from '@/app/core/services/loading/loading.service';
+import { FormValidationService } from '@/app/core/services/form-validation/form-validation.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from '@/app/shared/shared.module';

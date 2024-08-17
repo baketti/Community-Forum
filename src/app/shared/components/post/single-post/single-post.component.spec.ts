@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SinglePostComponent } from './single-post.component';
-import { CommentsService } from '@/app/services/comments/comments.service';
-import { LoadingService } from '@/app/services/loading/loading.service';
+import { CommentsService } from '@/app/core/services/comments/comments.service';
+import { LoadingService } from '@/app/core/services/loading/loading.service';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { of } from 'rxjs';

@@ -1,4 +1,4 @@
-import { RouteGuardService } from '@/app/services/guards/route-guard/route-guard.service';
+import { RouteGuardService } from '@/app/core/guards/route-guard/route-guard.service';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';

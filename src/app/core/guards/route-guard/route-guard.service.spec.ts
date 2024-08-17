@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { of } from 'rxjs';
 import { RouteGuardService } from './route-guard.service';
-import { AuthenticationService } from '../../authentication/authentication.service';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { map } from 'rxjs/operators';    

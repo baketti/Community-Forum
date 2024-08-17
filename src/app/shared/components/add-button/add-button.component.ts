@@ -1,4 +1,4 @@
-import { DialogHandlerService } from '@/app/services/dialog-handler/dialog-handler.service';
+import { DialogHandlerService } from '@/app/core/services/dialog-handler/dialog-handler.service';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 

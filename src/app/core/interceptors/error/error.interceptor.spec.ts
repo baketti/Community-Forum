@@ -2,8 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { HttpInterceptorFn, HttpRequest, HttpHandler, HttpErrorResponse, HttpHandlerFn } from '@angular/common/http';
 import { of, throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../../authentication/authentication.service';
-import { SnackbarMessageService } from '../../notification/snackbar-message.service';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { SnackbarMessageService } from '../../services/notification/snackbar-message.service';
 import { errorInterceptor } from './error.interceptor';
 
 describe('errorInterceptor', () => {

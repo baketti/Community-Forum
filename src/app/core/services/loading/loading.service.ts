@@ -41,7 +41,7 @@ export class LoadingService {
     return this.spinners.get(id);
   }
 
-  public addQuene(id: string) {
+  public addQueue(id: string) {
     const spinner = this.getOrCreateSpinner(id);    
     if (spinner) {
       spinner.count++;
@@ -51,7 +51,7 @@ export class LoadingService {
     }
   }
 
-  public removeQuene(id: string) {
+  public removeQueue(id: string) {
     const spinner = this.spinners.get(id);
     if (spinner && spinner.count > 0) {
       spinner.count--;

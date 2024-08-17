@@ -1,9 +1,9 @@
 import { AppState } from '@/app/core/store/app/app.state';
 import { postPostRequest, postPostResponseFailure, postPostResponseSuccess } from '@/app/features/post/store/posts/posts.actions';
 import { IPost, Post } from '@/app/models/Post';
-import { DialogHandlerService } from '@/app/services/dialog-handler/dialog-handler.service';
-import { FormValidationService } from '@/app/services/form-validation/form-validation.service';
-import { LoadingService } from '@/app/services/loading/loading.service';
+import { DialogHandlerService } from '@/app/core/services/dialog-handler/dialog-handler.service';
+import { FormValidationService } from '@/app/core/services/form-validation/form-validation.service';
+import { LoadingService } from '@/app/core/services/loading/loading.service';
 import { Component, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';

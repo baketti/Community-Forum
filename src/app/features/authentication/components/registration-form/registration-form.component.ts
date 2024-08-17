@@ -1,8 +1,8 @@
 import { IUser } from '@/app/models/User';
-import { FormValidationService } from '@/app/services/form-validation/form-validation.service';
-import { LoadingService } from '@/app/services/loading/loading.service';
-import { SnackbarMessageService } from '@/app/services/notification/snackbar-message.service';
-import { UsersService } from '@/app/services/users/users.service';
+import { FormValidationService } from '@/app/core/services/form-validation/form-validation.service';
+import { LoadingService } from '@/app/core/services/loading/loading.service';
+import { SnackbarMessageService } from '@/app/core/services/notification/snackbar-message.service';
+import { UsersService } from '@/app/core/services/users/users.service';
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';

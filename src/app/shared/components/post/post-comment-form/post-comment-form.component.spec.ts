@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PostCommentFormComponent } from './post-comment-form.component';
-import { AuthenticationService } from '@/app/services/authentication/authentication.service';
-import { CommentsService } from '@/app/services/comments/comments.service';
-import { SnackbarMessageService } from '@/app/services/notification/snackbar-message.service';
+import { AuthenticationService } from '@/app/core/services/authentication/authentication.service';
+import { CommentsService } from '@/app/core/services/comments/comments.service';
+import { SnackbarMessageService } from '@/app/core/services/notification/snackbar-message.service';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';

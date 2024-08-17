@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { LoadingService } from '@/app/services/loading/loading.service';
-import { FormValidationService } from '@/app/services/form-validation/form-validation.service';
+import { LoadingService } from '@/app/core/services/loading/loading.service';
+import { FormValidationService } from '@/app/core/services/form-validation/form-validation.service';
 
 @Component({
   selector: 'app-create-user-form',

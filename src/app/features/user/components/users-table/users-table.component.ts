@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IUser } from '@/app/models/User';
 import { Router } from '@angular/router';
-import { LoadingService } from '@/app/services/loading/loading.service';
+import { LoadingService } from '@/app/core/services/loading/loading.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteUserDialogComponent } from '../delete-user-dialog/delete-user-dialog.component';
 import { Observable } from 'rxjs';

@@ -1,6 +1,6 @@
-import { AuthenticationService } from '@/app/services/authentication/authentication.service';
-import { FormValidationService } from '@/app/services/form-validation/form-validation.service';
-import { LoadingService } from '@/app/services/loading/loading.service';
+import { AuthenticationService } from '@/app/core/services/authentication/authentication.service';
+import { FormValidationService } from '@/app/core/services/form-validation/form-validation.service';
+import { LoadingService } from '@/app/core/services/loading/loading.service';
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthData } from '@/utils/types';

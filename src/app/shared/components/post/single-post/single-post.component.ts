@@ -1,8 +1,8 @@
 import { IComment } from '@/app/models/Comment';
 import { IPost } from '@/app/models/Post';
-import { CommentsService } from '@/app/services/comments/comments.service';
-import { LoadingService } from '@/app/services/loading/loading.service';
-import { UsersService } from '@/app/services/users/users.service';
+import { CommentsService } from '@/app/core/services/comments/comments.service';
+import { LoadingService } from '@/app/core/services/loading/loading.service';
+import { UsersService } from '@/app/core/services/users/users.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { map, catchError, of } from 'rxjs';
 

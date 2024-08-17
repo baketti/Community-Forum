@@ -18,7 +18,7 @@ import { PostRoutingModule } from './post-routing.module';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { CommentsService } from '@/app/services/comments/comments.service';
+import { CommentsService } from '@/app/core/services/comments/comments.service';
 import { PostsEffects } from '@/app/features/post/store/posts/posts.effects';
 import { postsReducer } from '@/app/features/post/store/posts/posts.reducers';
 import { EffectsModule } from '@ngrx/effects';

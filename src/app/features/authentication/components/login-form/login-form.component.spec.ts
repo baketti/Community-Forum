@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { LoginFormComponent } from './login-form.component';
-import { AuthenticationService } from '@/app/services/authentication/authentication.service';
-import { FormValidationService } from '@/app/services/form-validation/form-validation.service';
-import { LoadingService } from '@/app/services/loading/loading.service';
+import { AuthenticationService } from '@/app/core/services/authentication/authentication.service';
+import { FormValidationService } from '@/app/core/services/form-validation/form-validation.service';
+import { LoadingService } from '@/app/core/services/loading/loading.service';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';

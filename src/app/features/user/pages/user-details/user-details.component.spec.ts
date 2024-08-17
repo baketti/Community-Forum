@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserDetailsComponent } from './user-details.component';
-import { UsersService } from '@/app/services/users/users.service';
+import { UsersService } from '@/app/core/services/users/users.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';

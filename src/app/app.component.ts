@@ -1,4 +1,4 @@
-import { IconsService } from '@/app/services/icons/icons.service';
+import { IconsService } from '@/app/core/services/icons/icons.service';
 import { Component } from '@angular/core';
 
 @Component({

@@ -1,4 +1,4 @@
-import { PostsService } from "@/app/services/posts/posts.service";
+import { PostsService } from "@/app/core/services/posts/posts.service";
 import { Injectable } from "@angular/core";
 import { Actions, ofType, createEffect } from "@ngrx/effects";
 import { 
@@ -11,7 +11,7 @@ import {
 } from "./posts.actions";
 import { catchError, map, of, switchMap } from "rxjs";
 import { Store } from "@ngrx/store";
-import { SnackbarMessageService } from "@/app/services/notification/snackbar-message.service";
+import { SnackbarMessageService } from "@/app/core/services/notification/snackbar-message.service";
 import { setPaginationAfterCreate } from "@/app/shared/store/pagination/pagination.actions";
 import { AppState } from "@/app/core/store/app/app.state";
 

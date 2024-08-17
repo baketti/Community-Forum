@@ -3,8 +3,8 @@ import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../../authentication/authentication.service';
-import { SnackbarMessageService } from '../../notification/snackbar-message.service';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { SnackbarMessageService } from '../../services/notification/snackbar-message.service';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);

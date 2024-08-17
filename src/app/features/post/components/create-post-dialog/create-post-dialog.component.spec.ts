@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreatePostDialogComponent } from './create-post-dialog.component';
-import { FormValidationService } from '@/app/services/form-validation/form-validation.service';
-import { LoadingService } from '@/app/services/loading/loading.service';
-import { SnackbarMessageService } from '@/app/services/notification/snackbar-message.service';
-import { PostsService } from '@/app/services/posts/posts.service';
+import { FormValidationService } from '@/app/core/services/form-validation/form-validation.service';
+import { LoadingService } from '@/app/core/services/loading/loading.service';
+import { SnackbarMessageService } from '@/app/core/services/notification/snackbar-message.service';
+import { PostsService } from '@/app/core/services/posts/posts.service';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
@@ -21,7 +21,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { postPostRequest, postPostResponseFailure, postPostResponseSuccess } from '../../store/posts/posts.actions';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { DialogHandlerService } from '@/app/services/dialog-handler/dialog-handler.service';
+import { DialogHandlerService } from '@/app/core/services/dialog-handler/dialog-handler.service';
 
 describe('CreatePostDialogComponent', () => {
   let component: CreatePostDialogComponent;

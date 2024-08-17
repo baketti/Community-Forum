@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AddButtonComponent } from './add-button.component';
 import { MatIconModule } from '@angular/material/icon';
-import { DialogHandlerService } from '@/app/services/dialog-handler/dialog-handler.service';
+import { DialogHandlerService } from '@/app/core/services/dialog-handler/dialog-handler.service';
 import { of } from 'rxjs';
 
 describe('AddButtonComponent', () => {

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UsersTableComponent } from './users-table.component';
 import { MatCardModule } from '@angular/material/card';
-import { LoadingService } from '@/app/services/loading/loading.service';
+import { LoadingService } from '@/app/core/services/loading/loading.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';

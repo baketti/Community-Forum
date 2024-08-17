@@ -10,7 +10,6 @@ import { AuthData, SessionDataParams } from '@/utils/types';
   providedIn: 'root'
 })
 export class AuthenticationService {
-
   private authenticated = new BehaviorSubject<boolean>(false);
   public readonly isAuthenticated$ = this.authenticated.asObservable();
 
@@ -49,6 +48,9 @@ export class AuthenticationService {
   }
 
   setSessionData = (params: SessionDataParams): void => {
+    /* this method let us to set token first and user data then; 
+    this is because when user is logging in we need the token to perform
+    findByEmail request; */
     const { token, user } = params;
     if (token) sessionStorage.setItem("Token", token);
     if (user) sessionStorage.setItem("User", JSON.stringify(user));

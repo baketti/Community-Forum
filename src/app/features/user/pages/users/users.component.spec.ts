@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UsersComponent } from './users.component';
-import { DialogHandlerService } from '@/app/services/dialog-handler/dialog-handler.service';
-import { LoadingService } from '@/app/services/loading/loading.service';
-import { UsersService } from '@/app/services/users/users.service';
+import { DialogHandlerService } from '@/app/core/services/dialog-handler/dialog-handler.service';
+import { LoadingService } from '@/app/core/services/loading/loading.service';
+import { UsersService } from '@/app/core/services/users/users.service';
 import { MatDialog } from '@angular/material/dialog';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';

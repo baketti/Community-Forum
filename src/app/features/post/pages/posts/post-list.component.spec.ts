@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PostListComponent } from './post-list.component';
-import { DialogHandlerService } from '@/app/services/dialog-handler/dialog-handler.service';
-import { LoadingService } from '@/app/services/loading/loading.service';
-import { PostsService } from '@/app/services/posts/posts.service';
+import { DialogHandlerService } from '@/app/core/services/dialog-handler/dialog-handler.service';
+import { LoadingService } from '@/app/core/services/loading/loading.service';
+import { PostsService } from '@/app/core/services/posts/posts.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { provideHttpClientTesting } from '@angular/common/http/testing';

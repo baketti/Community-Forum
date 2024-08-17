@@ -1,5 +1,5 @@
-import { SnackbarMessageService } from "@/app/services/notification/snackbar-message.service";
-import { UsersService } from "@/app/services/users/users.service";
+import { SnackbarMessageService } from "@/app/core/services/notification/snackbar-message.service";
+import { UsersService } from "@/app/core/services/users/users.service";
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";

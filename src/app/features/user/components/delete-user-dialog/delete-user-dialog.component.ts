@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { LoadingService } from '@/app/services/loading/loading.service';
-import { SnackbarMessageService } from '@/app/services/notification/snackbar-message.service';
+import { LoadingService } from '@/app/core/services/loading/loading.service';
+import { SnackbarMessageService } from '@/app/core/services/notification/snackbar-message.service';
 import { deleteUserRequest, deleteUserResponseFailure, deleteUserResponseSuccess } from '@/app/features/user/store/users/users.actions';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';

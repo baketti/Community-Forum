@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeleteUserDialogComponent } from './delete-user-dialog.component';
-import { FormValidationService } from '@/app/services/form-validation/form-validation.service';
-import { LoadingService } from '@/app/services/loading/loading.service';
-import { SnackbarMessageService } from '@/app/services/notification/snackbar-message.service';
-import { UsersService } from '@/app/services/users/users.service';
+import { FormValidationService } from '@/app/core/services/form-validation/form-validation.service';
+import { LoadingService } from '@/app/core/services/loading/loading.service';
+import { SnackbarMessageService } from '@/app/core/services/notification/snackbar-message.service';
+import { UsersService } from '@/app/core/services/users/users.service';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';

@@ -1,5 +1,5 @@
 import { IPost } from '@/app/models/Post';
-import { LoadingService } from '@/app/services/loading/loading.service';
+import { LoadingService } from '@/app/core/services/loading/loading.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -12,7 +12,7 @@ import { AppState } from '@/app/core/store/app/app.state';
 import { getPostsByTitleRequest, getPostsRequest } from '@/app/features/post/store/posts/posts.actions';
 import { updatePagination } from '@/app/shared/store/pagination/pagination.actions';
 import { getPagination } from '@/app/shared/store/pagination/pagination.selectors';
-import { DialogHandlerService } from '@/app/services/dialog-handler/dialog-handler.service';
+import { DialogHandlerService } from '@/app/core/services/dialog-handler/dialog-handler.service';
 
 @Component({
   selector: 'app-posts',

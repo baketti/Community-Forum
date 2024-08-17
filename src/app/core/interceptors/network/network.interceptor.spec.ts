@@ -1,17 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpInterceptorFn } from '@angular/common/http';
 
-import { authInterceptor } from './auth.interceptor';
-import { AuthenticationService } from '../../authentication/authentication.service';
+import { networkInterceptor } from './network.interceptor';
+import { LoadingService } from '../../services/loading/loading.service';
 
-describe('authInterceptor', () => {
+describe('networkInterceptor', () => {
   const interceptor: HttpInterceptorFn = (req, next) => 
-    TestBed.runInInjectionContext(() => authInterceptor(req, next));
+    TestBed.runInInjectionContext(() => networkInterceptor(req, next));
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        AuthenticationService
+        LoadingService
       ]
     });
   });

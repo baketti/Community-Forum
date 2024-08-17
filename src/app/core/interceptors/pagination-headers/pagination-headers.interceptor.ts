@@ -39,7 +39,7 @@ export const paginationHeadersInterceptor: HttpInterceptorFn = (req, next) => {
           }
         }
       }, error => {
-        console.error('Error response intercepted:', error);
+        console.error('Error Pagination headers interceptor response:', error);
       })
     );
   }else{

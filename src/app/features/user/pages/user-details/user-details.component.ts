@@ -5,7 +5,7 @@ HERE I HAVE EXPERIMENTED TWO DIFFERENT APPROACHES TO RETRIEVE DATA:
 */
 import { IPost } from '@/app/models/Post';
 import { IUser } from '@/app/models/User';
-import { UsersService } from '@/app/services/users/users.service';
+import { UsersService } from '@/app/core/services/users/users.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
