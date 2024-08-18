@@ -106,6 +106,14 @@ The primary routes configuration in the AppRouting module defines the main entry
 - `/auth`: Loads the authentication module.
 - Wildcard Route: Redirects any undefined paths to the error handling module
 
+### Authentication Routing
+
+The authentication module manages routes related to user login and registration:
+
+- `/auth/login`: Displays the login page, protected by LoginGuardService.
+- `/auth/registration`: Displays the registration page.
+- Default Route: Redirects to the login page.
+
 ### Features Routing
 
 The features module's routing handles sub-routes for various features of the application:
@@ -136,14 +144,6 @@ The errors module shows error views based on different HTTP error responses:
 - `/app/errors/404`: Shows the Not Found error page.
 - `/app/errors/500`: Shows the Network Error page.
 - Default Route: Redirects to the 404 Not Found page.
-
-### Authentication Routing
-
-The authentication module manages routes related to user login and registration:
-
-- `/auth/login`: Displays the login page, protected by LoginGuardService.
-- `/auth/registration`: Displays the registration page.
-- Default Route: Redirects to the login page.
 
 ## Quick start
 
@@ -181,6 +181,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+The application has unit tests covering over 60% of its codebase.
 
 ## Further help
 

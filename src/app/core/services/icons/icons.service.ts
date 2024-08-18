@@ -22,6 +22,7 @@ export class IconsService {
     this.addIcon('inactive', 'assets/icons/user-blocked.svg');
     this.addIcon('home', 'assets/icons/home-3.svg');
     this.addIcon('users', 'assets/icons/users.svg');
+    this.addIcon('github', 'assets/icons/github.svg');
   }
 
   private addIcon(alias: string, url: string): void {
