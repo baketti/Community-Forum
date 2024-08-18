@@ -11,9 +11,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    a>button{
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    a{
+        text-decoration: none;
+        button{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     }
 }
