@@ -1,4 +1,4 @@
-# Users Businness Management Tool
+# Urban Harmony
 This project was developed as the final exam for the Start2Impact University Angular course. 
 It is a frontend application designed to work as a management tool for citizens, enabling them to submit and manage their ideas or reports. 
 
@@ -91,7 +91,8 @@ The `paginationHeadersInterceptor`, captures pagination details from the respons
 
 Components are subscribed to the pagination state object and use local variables to perform requests with the current pagination values. Search functionality is delayed using `RxJs`’s `debounceTime` function, set to approximately 1 second. This delay prevents excessive requests and allows the user to type their desired search string without unpleasant interruptions.
 
-`For users, in addition to text-based search, filters for gender and status can be applied. For posts, the search is solely by title.`
+`For users, in addition to text-based search, filters for gender and status can be applied.`
+`For posts, the search is solely by title.`
 
 ## Routes
 

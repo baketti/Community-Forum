@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'users-bmt';
+  title = 'urban-harmony';
   constructor(
     private iconsSrv: IconsService) {
     this.iconsSrv.registerIcons();
