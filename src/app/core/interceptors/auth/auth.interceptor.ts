@@ -2,7 +2,7 @@ import { HttpInterceptorFn } from '@angular/common/http';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { environment } from '@/environments/environment.development';
+import { environment } from '@/environments/environment';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthenticationService);
