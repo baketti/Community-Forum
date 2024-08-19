@@ -43,6 +43,10 @@ import { EffectsModule } from '@ngrx/effects';
     SharedModule,
     MatDialogModule,
     MatButtonModule,
+  ],
+  exports: [
+    StoreModule,
+    EffectsModule,
   ]
 })
 

@@ -2,14 +2,14 @@
     <div class="appbar-links">
         @if(isLoggedIn){
             <button mat-raised-button (click)="goToUsersPage()">
-                <span>Users</span><mat-icon>group</mat-icon></button>
+                <span>USERS</span><mat-icon>group</mat-icon></button>
             <button mat-raised-button (click)="goToPostsPage()">
-                <span>Posts</span> <mat-icon> forum</mat-icon>
+                <span>POSTS</span> <mat-icon> forum</mat-icon>
             </button>
         }
     </div>
     <button mat-raised-button [matMenuTriggerFor]="menu">
-        <span>Menu</span>
+        <span>MENU</span>
     </button>
     <mat-menu class="menu" #menu="matMenu">
         <button mat-menu-item *ngIf="isLoggedIn" (click)="goToUserProfile()">

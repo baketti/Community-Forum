@@ -1,44 +1,39 @@
-/* 
-HERE I HAVE EXPERIMENTED TWO DIFFERENT APPROACHES TO RETRIEVE DATA:
- - USERS => taking the observable and working with it;
- - POSTS => working directly with the result returned from the observable;
-*/
-import { IPost } from '@/app/models/Post';
-import { IUser } from '@/app/models/User';
-import { UsersService } from '@/app/core/services/users/users.service';
-import { Component, OnInit } from '@angular/core';
+import { IPostFe } from '@/app/models/Post';
+import { IUserFe } from '@/app/models/User';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, } from 'rxjs';
+import { AppState } from '@/app/core/store/app/app.state';
+import { Store } from '@ngrx/store';
+import { getCurrentUserRequest, resetCurrentUser } from '../../store/users/users.actions';
+import { getCurrentUser, getCurrentUserPosts } from '../../store/users/users.selectors';
 
 @Component({
   selector: 'app-user-details',
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.scss'
 })
-export class UserDetailsComponent implements OnInit {
-  user$ = new Observable<IUser>();
-  userPosts: IPost[] = [];
+export class UserDetailsComponent implements OnInit, OnDestroy {
+  user$: Observable<IUserFe|null> = this.store.select(getCurrentUser);
+  userPosts$: Observable<IPostFe[]> = this.store.select(getCurrentUserPosts);
 
   constructor(
     private route: ActivatedRoute,
-    private usersService: UsersService
-  ) { }
+    private store: Store<AppState>
+  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const userId = +params['id'];
       this.getUserDetails(userId);
-      this.getUserPosts(userId);
     })
   }
 
-  getUserDetails(userId:number): void {
-    this.user$ = this.usersService.getUserDetails(userId);
+  getUserDetails(user_id:number): void {
+    this.store.dispatch(getCurrentUserRequest({user_id}));
   }
 
-  getUserPosts(userId:number): void {
-    this.usersService.getUserPosts(userId).subscribe(posts => {
-      this.userPosts = posts;
-    });
+  ngOnDestroy(): void {
+    this.store.dispatch(resetCurrentUser());
   }
 }

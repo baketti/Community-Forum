@@ -1,6 +1,6 @@
-import { IPost } from '@/app/models/Post';
+import { IPost, IPostFe } from '@/app/models/Post';
 import { LoadingService } from '@/app/core/services/loading/loading.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
@@ -9,10 +9,11 @@ import { CreatePostDialogComponent } from '../../components/create-post-dialog/c
 import { select, Store } from '@ngrx/store';
 import { getPostsList } from '@/app/features/post/store/posts/posts.selectors';
 import { AppState } from '@/app/core/store/app/app.state';
-import { getPostsByTitleRequest, getPostsRequest } from '@/app/features/post/store/posts/posts.actions';
-import { updatePagination } from '@/app/shared/store/pagination/pagination.actions';
+import { getPostsByTitleRequest, getPostsRequest, getPostsResponseSuccess } from '@/app/features/post/store/posts/posts.actions';
+import { restartPagination, updatePagination } from '@/app/shared/store/pagination/pagination.actions';
 import { getPagination } from '@/app/shared/store/pagination/pagination.selectors';
 import { DialogHandlerService } from '@/app/core/services/dialog-handler/dialog-handler.service';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'app-posts',
@@ -20,7 +21,7 @@ import { DialogHandlerService } from '@/app/core/services/dialog-handler/dialog-
   styleUrl: './post-list.component.scss'
 })
 export class PostListComponent implements OnInit, OnDestroy {
-  posts$: Observable<IPost[]> = this.store.select(getPostsList);
+  posts$: Observable<IPostFe[]> = this.store.select(getPostsList);
   totalPosts: number = 0;
   page: number = 0;
   per_page: number = 10;
@@ -44,12 +45,8 @@ export class PostListComponent implements OnInit, OnDestroy {
     }
  
   ngOnInit(): void {
-    this.fetchPosts();
-    this.searchPostForm.valueChanges.pipe(
-      debounceTime(1000)).subscribe((value) => {
-        this.fetchPostsByTitle(value.searchStr);
-      }
-    );      
+    this.store.dispatch(restartPagination());
+    this.fetchPosts();  
   }
    
   private get initSearchPostForm(): FormGroup {
@@ -67,18 +64,26 @@ export class PostListComponent implements OnInit, OnDestroy {
         this.updatePageSizeOptions();
       }),
     )
-    this.posts$.subscribe((posts)=> {
+    this.posts$.subscribe((posts) => {
+      //this is a workaround for the paginator issue
+      //it handles the case when items doesn't reach the current page
+      //For example, if we are on page 2 and items after search are only 2
       if(!posts.length && this.totalPosts){
         this.refresh();
       }
-    })
+    })  
+    this.searchPostForm.valueChanges.pipe(
+      debounceTime(1000)).subscribe((value) => {
+        this.fetchPostsByTitle(value.searchStr);
+      }
+    );  
   }
 
   fetchPosts(): void {
     const { page, per_page } = this;
     this.store.dispatch(getPostsRequest({
       page: page+1, per_page
-    }))
+    }));
   }
   
   fetchPostsByTitle(searchStr:string): void {    
@@ -91,14 +96,14 @@ export class PostListComponent implements OnInit, OnDestroy {
   refresh(): void {
     if(this.hasActiveFilterByTitle()){
       const { searchStr } = this.searchPostForm.value;
-      this.fetchPostsByTitle(searchStr)
+      this.fetchPostsByTitle(searchStr);
     }else{
       this.fetchPosts();
     }
   }
   
   onPageChange(event: PageEvent) {
-    const { pageIndex, pageSize } = event
+    const { pageIndex, pageSize } = event;
     this.store.dispatch(updatePagination({
       page: pageIndex, per_page: pageSize
     }));

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { LoadingService } from '@/app/core/services/loading/loading.service';
@@ -27,12 +27,12 @@ export class CreateUserDialogComponent {
   private subscription: Subscription;
 
   constructor(
-    private store: Store<AppState>,
-    private actions$: Actions,
-    public loadingSrv: LoadingService,
-    private dialogHandlerSrv: DialogHandlerService,
-    public dialogRef: MatDialogRef<CreateUserDialogComponent>
-  ) {
+      private store: Store<AppState>,
+      @Inject(Actions) private actions$: Actions,
+      public loadingSrv: LoadingService,
+      private dialogHandlerSrv: DialogHandlerService,
+      public dialogRef: MatDialogRef<CreateUserDialogComponent>
+    ) {
     this.newUserForm = this.initNewUserForm;
     this.subscription = this.subscribeActions();
   }

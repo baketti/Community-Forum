@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class UserCardComponent implements OnInit {
 
-  @Input() user$!:Observable<IUser>;
+  @Input() user$!:Observable<IUser|null>;
   maleImg: string = 'assets/images/male.svg';
   femaleImg: string = 'assets/images/female.svg';
 

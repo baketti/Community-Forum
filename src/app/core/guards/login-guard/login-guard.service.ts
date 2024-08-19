@@ -12,10 +12,7 @@ export class LoginGuardService {
     private router: Router
   ) { }
 
-  canActivate(route: ActivatedRouteSnapshot, state:  RouterStateSnapshot)  {
-    console.log('route ', route);
-    console.log('state ', state);
-    
+  canActivate(route: ActivatedRouteSnapshot, state:  RouterStateSnapshot)  {    
     if(this.authService.isLogged()) {
       this.router.navigate(['app/users']);
       return false

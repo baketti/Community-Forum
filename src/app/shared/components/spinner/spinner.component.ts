@@ -11,7 +11,6 @@ export class SpinnerComponent implements OnInit{
     @Input() size!: number;
     @Input() small: boolean = false;
     private _show: boolean = false;
-    
     set show(value: boolean) {
       this._show = value;
     }

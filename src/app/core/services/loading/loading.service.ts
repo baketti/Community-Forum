@@ -11,7 +11,7 @@ import { SpinnerState, LoadingState } from '@/utils/types';
 export class LoadingService {
   private spinners: Map<string, SpinnerState> = new Map();
   public currentSpinnerId: string | null = null;
-  private loading = new BehaviorSubject<LoadingState>({
+  public loading = new BehaviorSubject<LoadingState>({
     spinnerId: '',
     show: false
   });
@@ -61,7 +61,7 @@ export class LoadingService {
     }
   }
 
-  private showSpinner(id: string) {
+  public showSpinner(id: string|null) {
     this.currentSpinnerId = id;
     this.overlayRef.attach(new ComponentPortal(SpinnerComponent));
     this.loading.next({
@@ -82,5 +82,14 @@ export class LoadingService {
         this.currentSpinnerId = null;
       }
     }
+  }
+
+  public removeSpinner(){
+    /* used to directly remove the loading spinner avoiding the queue */
+    this.overlayRef.detach();
+    this.loading.next({
+      show: false
+    });
+    this.currentSpinnerId = null;
   }
 }

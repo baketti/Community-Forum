@@ -16,9 +16,9 @@ export class CommentsService {
     private apisHelperSrv: ApisHelperService
   ) { }
   
-  postComment(postId: number, comment: Omit<IComment, 'id'>):Observable<IComment> {
+  postComment(comment: Omit<IComment, 'id'>):Observable<IComment> {
     return this.http.post<IComment>(
-      this.url(postId), 
+      this.url(comment.post_id), 
       comment,
       this.apisHelperSrv.addXSpinnerIdHeader("post-comment")
     );
@@ -26,7 +26,8 @@ export class CommentsService {
 
   getComments(postId: number):Observable<IComment[]> {
     return this.http.get<IComment[]>(
-      this.url(postId)
+      this.url(postId),
+      this.apisHelperSrv.addXSpinnerIdHeader("get-comments")
     );
   }  
 }

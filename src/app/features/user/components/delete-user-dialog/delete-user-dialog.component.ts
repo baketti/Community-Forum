@@ -21,7 +21,7 @@ export class DeleteUserDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: number,
     public loadingSrv: LoadingService,
     private store: Store<AppState>,
-    private actions$: Actions,
+    @Inject(Actions) private actions$: Actions,
   ) { 
     this.subscription = this.subscribeActions();
   } 

@@ -16,3 +16,7 @@ export const updatePagination = createAction(
   '[Pagination] Update Pagination',
     props<{page:number, per_page: number }>()
 );
+
+export const restartPagination = createAction(
+  '[Pagination] Reset Pagination'
+);

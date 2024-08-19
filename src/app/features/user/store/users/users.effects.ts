@@ -1,9 +1,9 @@
 import { SnackbarMessageService } from "@/app/core/services/notification/snackbar-message.service";
 import { UsersService } from "@/app/core/services/users/users.service";
-import { Injectable } from "@angular/core";
+import { Inject, Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { switchMap, map, catchError, of } from "rxjs";
+import { switchMap, map, catchError, of, forkJoin, tap } from "rxjs";
 import { 
     setPaginationAfterCreate, 
     setPaginationAfterDelete 
@@ -12,21 +12,28 @@ import {
     getUsersRequest, 
     getUsersResponseSuccess, 
     getUsersByFiltersRequest, 
+    getCurrentUserRequest,
+    getCurrentUserResponseFailure,
+    getCurrentUserResponseSuccess,
     postUserRequest, 
     postUserResponseSuccess, 
     postUserResponseFailure,
     deleteUserRequest,
     deleteUserResponseSuccess,
-    deleteUserResponseFailure
+    deleteUserResponseFailure,
 } from "./users.actions";
 import { AppState } from "@/app/core/store/app/app.state";
+import { CommentsService } from "@/app/core/services/comments/comments.service";
+import { LoadingService } from "@/app/core/services/loading/loading.service";
 
 @Injectable()
 export class UsersEffects {
     constructor(
-        private actions$: Actions,
+        @Inject(Actions) private actions$: Actions,
         private store: Store<AppState>,
         private usersService: UsersService,
+        private commentsService: CommentsService,
+        private loadingService: LoadingService,
         private snackMessage: SnackbarMessageService
     ) {}
 
@@ -49,6 +56,30 @@ export class UsersEffects {
             catchError((err) => {
                 return of(err)
             })
+        ))
+    ));
+    getCurrentUserRequest$ = createEffect(() => this.actions$.pipe(
+        ofType(getCurrentUserRequest),
+        switchMap((action) => this.usersService.getUserDetails(action.user_id).pipe(
+            switchMap(user => 
+                this.usersService.getUserPosts(user.id).pipe(
+                    switchMap(posts => {
+                        const postsWithComments$ = posts.map(post =>
+                            this.commentsService.getComments(post.id).pipe(
+                                map(comments => ({ ...post, comments }))
+                            )
+                        );
+                        return forkJoin(postsWithComments$).pipe(
+                            map(postsWithComments => ({ ...user, posts: postsWithComments }))
+                        );
+                    })
+                )
+            ),
+            map(currentUser => {
+                this.loadingService.removeSpinner();
+                return getCurrentUserResponseSuccess({ currentUser })
+            }),
+            catchError((err) => of(getCurrentUserResponseFailure({ err })))
         ))
     ));
     postUserRequest$ = createEffect(() => this.actions$.pipe(

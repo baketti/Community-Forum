@@ -1,4 +1,4 @@
-import { IUser } from "@/app/models/User";
+import { IUser, IUserFe } from "@/app/models/User";
 import { createAction, props } from "@ngrx/store";
 
 export const getUsersRequest = createAction(
@@ -16,6 +16,25 @@ export const getUsersResponseSuccess = createAction(
     props<{ users: IUser[] }>()
 );
 
+export const getCurrentUserRequest = createAction(
+  '[Users] Get Current User Request',
+  props<{ user_id: number }>()
+);
+
+export const resetCurrentUser = createAction(
+  '[Users] Reset Current User'
+);
+
+export const getCurrentUserResponseSuccess = createAction(
+  '[Users] Get Current User Response Success',
+  props<{ currentUser: IUserFe }>()
+);
+
+export const getCurrentUserResponseFailure = createAction(
+  '[Users] Get Current User Response Failure',
+  props<{ err: any }>()
+);
+
 export const postUserRequest = createAction(
   '[Users] Post User Request',
   props<{ user: IUser }>()
@@ -30,7 +49,6 @@ export const postUserResponseFailure = createAction(
   '[Users] Post User Response Failure',
     props<{ err: any }>()
 );
-
 
 export const deleteUserRequest = createAction(
     '[Users] Delete User Request',

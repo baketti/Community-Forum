@@ -1,6 +1,5 @@
-import { CreatePostDialogComponent } from "@/app/features/post/components/create-post-dialog/create-post-dialog.component";
-import { IPost, Post } from "@/app/models/Post";
-import { MatDialogRef } from "@angular/material/dialog";
+import { IComment } from "@/app/models/Comment";
+import { IPostFe, Post } from "@/app/models/Post";
 import { createAction, props } from "@ngrx/store";
 
 export const getPostsRequest = createAction(
@@ -15,7 +14,7 @@ export const getPostsByTitleRequest = createAction(
 
 export const getPostsResponseSuccess = createAction(
   '[Posts] Get Posts Response',
-    props<{ posts: IPost[] }>()
+  props<{ posts: IPostFe[] }>()
 );
 
 export const postPostRequest = createAction(
@@ -25,10 +24,25 @@ export const postPostRequest = createAction(
 
 export const postPostResponseSuccess = createAction(
   '[Posts] Post Post Response Success',
-    props<{ post: IPost }>()
+  props<{ post: IPostFe }>()
 );
 
 export const postPostResponseFailure = createAction(
   '[Posts] Post Post Response Failure',
-    props<{ err: any }>()
+  props<{ err: any }>()
+);
+
+export const postCommentRequest = createAction(
+  '[Comments] Post Comment Request',
+  props<{ comment: Omit<IComment, 'id'> }>()
+);
+
+export const postCommentResponseSuccess = createAction(
+  '[Comments] Post Comment Response Success',
+  props<{ comment: IComment }>()
+);
+
+export const postCommentResponseFailure = createAction(
+  '[Comments] Post Comment Response Failure',
+  props<{ error: any }>()
 );

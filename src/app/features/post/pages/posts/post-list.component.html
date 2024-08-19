@@ -12,7 +12,7 @@
 </mat-card>
 <div class="posts-list">
     @for(post of (posts$|async); track $index){
-        <app-single-post [post]="post"></app-single-post>
+        <app-single-post [post]="post" [comments]="post.comments"></app-single-post>
     }
 </div>
 <mat-paginator 

@@ -1,36 +1,46 @@
 import { IComment } from '@/app/models/Comment';
 import { IUser } from '@/app/models/User';
 import { AuthenticationService } from '@/app/core/services/authentication/authentication.service';
-import { CommentsService } from '@/app/core/services/comments/comments.service';
 import { LoadingService } from '@/app/core/services/loading/loading.service';
-import { SnackbarMessageService } from '@/app/core/services/notification/snackbar-message.service';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { AppState } from '@/app/core/store/app/app.state';
+import { Store } from '@ngrx/store';
+import { postCommentRequest, postCommentResponseSuccess } from '@/app/features/post/store/posts/posts.actions';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'app-post-comment-form',
   templateUrl: './post-comment-form.component.html',
   styleUrl: './post-comment-form.component.scss'
 })
-export class PostCommentFormComponent {
+export class PostCommentFormComponent implements OnInit {
   commentForm: FormGroup;
   get loggedUser():IUser {
     return this.authSrv.getCurrentUser();
-  }
+  };
   get isDisabled(): boolean {
-    const { comment} = this.commentForm.value
+    const { comment} = this.commentForm.value;
     return comment === null || comment === '';
   };
   @Input() postId!: number; 
-  @Output() commentCreated = new EventEmitter<IComment>();
 
   constructor(
-    private commentsSrv: CommentsService,
+    @Inject(Actions) private actions$: Actions,
+    private store: Store<AppState>,
     private authSrv: AuthenticationService,
-    private snackMessage: SnackbarMessageService,
     public loadingSrv: LoadingService,
   ) {
-    this.commentForm = this.initCommentForm
+    this.commentForm = this.initCommentForm;
+  }
+
+  ngOnInit(): void {
+    this.actions$.pipe(
+      ofType(postCommentResponseSuccess)).subscribe(() => {
+      this.commentForm.reset({
+        comment: null
+      });
+    });
   }
   
   private get initCommentForm(): FormGroup {
@@ -47,27 +57,6 @@ export class PostCommentFormComponent {
       email: this.loggedUser.email,
       body: comment as string
     }
-    this.commentsSrv.postComment(this.postId, newComment).subscribe({
-      next: this.handlePostComment.bind(this),
-      error: this.handlePostCommentError.bind(this)
-    });
-    this.commentForm.reset({
-      comment: null
-    });
-  }
-
-  handlePostComment(comment: IComment): void {
-    this.commentCreated.emit(comment);
-    this.snackMessage.show({
-      message: "Comment created successfully",
-      duration: 3000
-    });
-  }
-
-  handlePostCommentError(error: any): void {
-    this.snackMessage.show({
-      message: "Error while creating comment",
-      duration: 3000
-    });
+    this.store.dispatch(postCommentRequest({comment: newComment}));
   }
 }

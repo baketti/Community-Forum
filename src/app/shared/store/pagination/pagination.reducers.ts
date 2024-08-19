@@ -12,9 +12,9 @@ export const initialState: PaginationState = {
 
 export const paginationReducer = createReducer(
     initialState,
-    on(actions.setPagination, (state, action) => ({ 
+    on(actions.setPagination, (state, { pagination }) => ({ 
         ...state, 
-        ...action.pagination 
+        ...pagination 
     })),
     on(actions.setPaginationAfterCreate, (state, action) => ({ 
         ...state,
@@ -24,9 +24,14 @@ export const paginationReducer = createReducer(
         ...state,
         totalItems: state.totalItems - 1
     })),
-    on(actions.updatePagination, (state, action) => ({ 
+    on(actions.updatePagination, (state, { page, per_page }) => ({ 
         ...state, 
-        page: action.page, 
-        per_page: action.per_page
+        page, 
+        per_page
+    })),
+    on(actions.restartPagination, (state, action) => ({ 
+        ...state, 
+        page: 0, 
+        totalItems: 0
     })),
 )

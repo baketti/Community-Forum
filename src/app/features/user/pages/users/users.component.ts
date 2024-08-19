@@ -13,11 +13,11 @@ import { AppState } from '@/app/core/store/app/app.state';
 import { select, Store } from '@ngrx/store';
 import { getUsersByFiltersRequest, getUsersRequest } from '@/app/features/user/store/users/users.actions';
 import { getUsersList } from '@/app/features/user/store/users/users.selectors';
-import { updatePagination } from '@/app/shared/store/pagination/pagination.actions';
+import { restartPagination, updatePagination } from '@/app/shared/store/pagination/pagination.actions';
 import { getPagination } from '@/app/shared/store/pagination/pagination.selectors';
 /* Call methods to get users have +1 on page param because 
 while paginator page is an index(it starts from 0)
-go rest api page starts from 1 */
+go-rest api page starts from 1 */
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -47,11 +47,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(restartPagination());
     this.fetchUsers();
-    this.searchForm.valueChanges.pipe(
-      debounceTime(1000)).subscribe(value => {
-        this.fetchUsersByFilters();
-      })
   }
 
   private get initSearchForm(): FormGroup {
@@ -72,10 +69,17 @@ export class UsersComponent implements OnInit, OnDestroy {
       }),
     )
     this.users$.subscribe((users)=> {
+      //this is a workaround for the paginator issue
+      //it handles the case when items doesn't reach the current page
+      //For example, if we are on page 2 and items after search are only 2
       if(!users.length && this.totalUsers){
         this.refresh();
       }
     })
+    this.searchForm.valueChanges.pipe(
+      debounceTime(1000)).subscribe(value => {
+        this.fetchUsersByFilters();
+      })
   }
 
   fetchUsers(): void {

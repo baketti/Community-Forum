@@ -21,7 +21,7 @@ interface SpinnerState {
 }
   
 interface LoadingState {
-    spinnerId: string;  
+    spinnerId?: string|null;  
     show: boolean;
 }
 

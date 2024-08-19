@@ -27,6 +27,7 @@ import { UsersEffects } from './store/users/users.effects';
 import { usersReducer } from './store/users/users.reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import PostsModule from '../post/post.module';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { StoreModule } from '@ngrx/store';
     MatDialogModule,
     MatTableModule,
     MatRadioModule,
+    PostsModule,
     NgOptimizedImage,
   ]
 })

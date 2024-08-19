@@ -1,9 +1,9 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import * as actions from './posts.actions';
-import { IPost } from '@/app/models/Post';
+import { IPostFe } from '@/app/models/Post';
 
 export type PostsState = {
-    posts: IPost[]
+    posts: IPostFe[]
 }
 
 export const initialState: PostsState = {
@@ -12,12 +12,21 @@ export const initialState: PostsState = {
 
 export const postsReducer = createReducer(
     initialState,
-    on(actions.getPostsResponseSuccess, (state, action) => ({ 
-        ...state, posts: action.posts 
-    })),
-    on(actions.postPostResponseSuccess, (state, action) => ({ 
-            ...state, posts: [ action.post, ...state.posts ] 
+    on(actions.getPostsResponseSuccess, (state, { posts }) => ({ 
+            ...state, posts
         })
-    )
+    ),
+    on(actions.postPostResponseSuccess, (state, { post }) => ({ 
+            ...state, posts: [ post, ...state.posts ] 
+        })
+    ),
+    on(actions.postCommentResponseSuccess, (state, { comment }) => ({
+          ...state,
+          posts: state.posts.map(post =>
+            post.id === comment.post_id
+              ? { ...post, comments: [...post.comments, comment] }
+              : post
+        )}
+    ))
 )
 
