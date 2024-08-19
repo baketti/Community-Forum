@@ -52,7 +52,7 @@ describe('CommentsService', () => {
       } 
     });
 
-    service.postComment(postId, comment).subscribe((response) => {
+    service.postComment(comment).subscribe((response) => {
       expect(response).toEqual(mockResponse);
     });
 

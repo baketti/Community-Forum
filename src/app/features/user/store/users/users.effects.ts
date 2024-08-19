@@ -25,6 +25,7 @@ import {
 import { AppState } from "@/app/core/store/app/app.state";
 import { CommentsService } from "@/app/core/services/comments/comments.service";
 import { LoadingService } from "@/app/core/services/loading/loading.service";
+import { AuthenticationService } from "@/app/core/services/authentication/authentication.service";
 
 @Injectable()
 export class UsersEffects {
@@ -34,7 +35,7 @@ export class UsersEffects {
         private usersService: UsersService,
         private commentsService: CommentsService,
         private loadingService: LoadingService,
-        private snackMessage: SnackbarMessageService
+        private snackMessage: SnackbarMessageService,
     ) {}
 
     getUsersRequest$ = createEffect(() => this.actions$.pipe(
@@ -64,6 +65,9 @@ export class UsersEffects {
             switchMap(user => 
                 this.usersService.getUserPosts(user.id).pipe(
                     switchMap(posts => {
+                        if(!posts.length){
+                            return of({ ...user, posts: [] });
+                        }
                         const postsWithComments$ = posts.map(post =>
                             this.commentsService.getComments(post.id).pipe(
                                 map(comments => ({ ...post, comments }))

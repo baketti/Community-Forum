@@ -1,31 +1,44 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PostCommentFormComponent } from './post-comment-form.component';
 import { AuthenticationService } from '@/app/core/services/authentication/authentication.service';
-import { CommentsService } from '@/app/core/services/comments/comments.service';
 import { SnackbarMessageService } from '@/app/core/services/notification/snackbar-message.service';
 import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import {  provideHttpClientTesting } from '@angular/common/http/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { of, throwError } from 'rxjs';
-import { IUser } from '@/app/models/User';
+import { Observable, of, throwError } from 'rxjs';
+import { IUser, UserGender, UserStatus } from '@/app/models/User';
 import { IComment } from '@/app/models/Comment';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { ScannedActionsSubject } from '@ngrx/store';
+import { postCommentResponseSuccess, postCommentRequest, postCommentResponseFailure } from '@/app/features/post/store/posts/posts.actions';
+import { Actions } from '@ngrx/effects';
+import { provideMockActions } from '@ngrx/effects/testing';
 
 describe('PostCommentFormComponent', () => {
   let component: PostCommentFormComponent;
   let fixture: ComponentFixture<PostCommentFormComponent>;
   let authService: jasmine.SpyObj<AuthenticationService>;
-  let commentsService: jasmine.SpyObj<CommentsService>;
+  let store: MockStore;
+  let actions$: Observable<any>;
   let snackMessageService: jasmine.SpyObj<SnackbarMessageService>;
+  const mockUser: IUser = {
+    id: 1,
+    name: 'Test User',
+    email: 'test@example.com',
+    gender: UserGender.FEMALE,
+    status: UserStatus.ACTIVE,
+  };
 
   beforeEach(async () => {
-    const authServiceSpy = jasmine.createSpyObj('AuthenticationService', ['getCurrentUser']);
-    const commentsServiceSpy = jasmine.createSpyObj('CommentsService', ['postComment']);
-    const snackMessageServiceSpy = jasmine.createSpyObj('SnackbarMessageService', ['show']);
+    authService = jasmine.createSpyObj('AuthenticationService', ['getCurrentUser']);
+    authService.getCurrentUser.and.returnValue(mockUser);
+
+    snackMessageService = jasmine.createSpyObj('SnackMessageService', ['show']);
 
     await TestBed.configureTestingModule({
       declarations: [PostCommentFormComponent],
@@ -37,11 +50,14 @@ describe('PostCommentFormComponent', () => {
         BrowserAnimationsModule
       ],
       providers: [
-        { provide: AuthenticationService, useValue: authServiceSpy },
-        { provide: CommentsService, useValue: commentsServiceSpy },
-        { provide: SnackbarMessageService, useValue: snackMessageServiceSpy },
+        { provide: AuthenticationService, useValue: authService },
+        { provide: SnackbarMessageService, useValue: snackMessageService },
         provideHttpClientTesting(),
-        provideHttpClient()
+        provideHttpClient(),
+        provideMockStore(),
+        provideMockActions(() => actions$),
+        Actions,
+        ScannedActionsSubject
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
@@ -50,8 +66,10 @@ describe('PostCommentFormComponent', () => {
     fixture = TestBed.createComponent(PostCommentFormComponent);
     component = fixture.componentInstance;
     authService = TestBed.inject(AuthenticationService) as jasmine.SpyObj<AuthenticationService>;
-    commentsService = TestBed.inject(CommentsService) as jasmine.SpyObj<CommentsService>;
     snackMessageService = TestBed.inject(SnackbarMessageService) as jasmine.SpyObj<SnackbarMessageService>;
+    store = TestBed.inject(MockStore);
+    spyOn(store, 'dispatch');
+    actions$ = TestBed.inject(Actions);
     fixture.detectChanges();
   });
 
@@ -81,47 +99,35 @@ describe('PostCommentFormComponent', () => {
   });
 
   it('should handle form submission', () => {
-    const user: IUser = { name: 'Test User', email: 'test@example.com' } as IUser;
-    authService.getCurrentUser.and.returnValue(user);
-    component.postId = 1;
-    component.commentForm.setValue({ comment: 'Test comment' });
+    const comment = 'Test comment';
+    component.commentForm.setValue({ comment });
 
-    const newComment: Omit<IComment, 'id'> = {
-      post_id: 1,
-      name: 'Test User',
-      email: 'test@example.com',
-      body: 'Test comment'
-    };
-
-    commentsService.postComment.and.returnValue(of(newComment as IComment));
     component.handleSubmit();
 
-    expect(commentsService.postComment).toHaveBeenCalledWith(1, newComment);
-    expect(component.commentForm.value.comment).toBeNull();
+    const expectedComment: Omit<IComment, 'id'> = {
+      post_id: component.postId,
+      name: mockUser.name,
+      email: mockUser.email,
+      body: comment
+    };
+
+    expect(store.dispatch).toHaveBeenCalledWith(postCommentRequest({ comment: expectedComment }));
   });
 
   it('should handle post comment success', () => {
-    const comment: IComment = { 
-      id: 1, 
-      post_id: 1, 
+    const comment: Omit<IComment, 'id'>  = { 
+      post_id: component.postId, 
       name: 'Test User', 
       email: 'test@example.com', 
       body: 'Test comment' 
     };
-    spyOn(component.commentCreated, 'emit');
-    component.handlePostComment(comment);
-    expect(component.commentCreated.emit).toHaveBeenCalledWith(comment);
-    expect(snackMessageService.show).toHaveBeenCalledWith({
-      message: 'Comment created successfully',
-      duration:3000
-    });
-  });
 
-  it('should handle post comment error', () => {
-    component.handlePostCommentError('Error');
-    expect(snackMessageService.show).toHaveBeenCalledWith({
-      message: 'Error while creating comment',
-      duration:3000
-    });
+    actions$ = of(postCommentResponseSuccess({ comment: { ...comment, id: 1 } }));
+
+    component.ngOnInit();
+    component.commentForm.setValue({ comment: comment.body });
+    component.handleSubmit();
+
+    expect(store.dispatch).toHaveBeenCalledWith(postCommentRequest({ comment }));
   });
 });

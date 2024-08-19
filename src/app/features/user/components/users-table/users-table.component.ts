@@ -8,6 +8,8 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { getUsersList } from '@/app/features/user/store/users/users.selectors';
 import { MatTableDataSource } from '@angular/material/table';
+import { AuthenticationService } from '@/app/core/services/authentication/authentication.service';
+import { SnackbarMessageService } from '@/app/core/services/notification/snackbar-message.service';
 
 @Component({
   selector: 'app-users-table',
@@ -23,7 +25,9 @@ export class UsersTableComponent {
     private router:Router, 
     private store:Store, 
     public loadingSrv: LoadingService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private authenticationSrv: AuthenticationService,
+    private snackMessage: SnackbarMessageService
   ) {
     this.dataSource = new MatTableDataSource<IUser>();
   }
@@ -39,6 +43,14 @@ export class UsersTableComponent {
   }
 
   openDeleteUserDialog(userId: number): void {
+    const { id } = this.authenticationSrv.getCurrentUser();
+    if(userId === id){
+      this.snackMessage.show({
+          message: "You cannot delete the user you are currently logged in with!",
+          duration: 3000
+      });
+      return;
+    }
     this.dialog.open(DeleteUserDialogComponent, {
       width: '250px',
       data: userId

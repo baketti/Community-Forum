@@ -50,16 +50,4 @@ describe('LoginGuardService', () => {
     );
     expect(result).toBeTrue();
   });
-
-  it('should log route and state', () => {
-    spyOn(console, 'log');
-    authService.isLogged.and.returnValue(false);
-
-    const route = {} as ActivatedRouteSnapshot;
-    const state = {} as RouterStateSnapshot;
-
-    service.canActivate(route, state);
-    expect(console.log).toHaveBeenCalledWith('route ', route);
-    expect(console.log).toHaveBeenCalledWith('state ', state);
-  });
 });

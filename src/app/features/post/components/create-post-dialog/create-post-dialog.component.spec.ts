@@ -14,7 +14,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable, of, throwError } from 'rxjs';
-import { IPost } from '@/app/models/Post';
+import { IPost, IPostFe } from '@/app/models/Post';
 import { StoreModule } from '@ngrx/store';
 import { mockReducer } from '@/app/app.component.spec';
 import { EffectsModule } from '@ngrx/effects';
@@ -31,11 +31,12 @@ describe('CreatePostDialogComponent', () => {
   let dialogHandlerSrv: jasmine.SpyObj<DialogHandlerService>;
   let dialogRef: jasmine.SpyObj<MatDialogRef<CreatePostDialogComponent>>;
 
-  const post: IPost = { 
+  const post: IPostFe = { 
     id: 1, 
     title: 'Test Post', 
     body: 'This is a test post',
-    user_id: 1
+    user_id: 1,
+    comments: []
   };
   beforeEach(async () => {
     const dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['close']);
