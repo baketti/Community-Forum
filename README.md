@@ -36,7 +36,7 @@ The `pages` directory, stored within multiple modules, contains components that 
 
 ## State Management
 
-- Local Stores: used for managing the state related to users and posts list, and pagination.
+- Local Stores: used for managing the state related to users list, userDetails, posts list, pagination.
 User and Post module have their own local store to handle state specific to that module, and use Pagination state stored in the shared module.
 
 ## User Authentication
