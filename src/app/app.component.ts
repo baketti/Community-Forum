@@ -12,7 +12,5 @@ export class AppComponent {
   constructor(
     private iconsSrv: IconsService) {
     this.iconsSrv.registerIcons();
-    console.log("env => ",environment.go_rest_token);
-    
   }
 }
