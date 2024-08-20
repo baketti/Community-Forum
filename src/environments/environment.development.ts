@@ -1,0 +1,5 @@
+export const environment = {
+    production: false,
+    go_rest_token: 'bdd2c5aa6c21dfe34b129ac55ae7b41d41862b29370d5980448737f3f23e1c59',
+};
+console.log("env => ", environment.go_rest_token);

@@ -120,10 +120,10 @@ describe('PostListComponent', () => {
 
   it('should return correct boolean value on hasActiveFilterByTitle', () => {
     component.searchPostForm.setValue({ searchStr: 'test' });
-    expect(component.hasActiveFilterByTitle()).toBeTrue();
+    expect(component.hasActiveFilterByTitle()).toBeTruthy();
 
     component.searchPostForm.setValue({ searchStr: '' });
-    expect(component.hasActiveFilterByTitle()).toBeFalse();
+    expect(component.hasActiveFilterByTitle()).toBeFalsy();
   });
 
   it('should update page size options correctly on updatePageSizeOptions', () => {

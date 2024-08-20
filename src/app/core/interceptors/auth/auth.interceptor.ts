@@ -2,7 +2,7 @@ import { HttpInterceptorFn } from '@angular/common/http';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { environment } from '@/environments/environment';
+import { environment } from '@/environments/environment.development';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthenticationService);
@@ -15,6 +15,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     && req.method === 'POST' 
     && !authService.isLogged()
   ) {
+    console.log("go_rest_token", environment.go_rest_token);
     token = environment.go_rest_token
   } else {
     token = authService.getSessionToken();

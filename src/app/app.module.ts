@@ -13,7 +13,6 @@ import { CoreModule } from './core/core.module';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
-import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [

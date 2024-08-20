@@ -1,4 +1,5 @@
 import { IconsService } from '@/app/core/services/icons/icons.service';
+import { environment } from '@/environments/environment.development';
 import { Component } from '@angular/core';
 
 @Component({
@@ -11,5 +12,7 @@ export class AppComponent {
   constructor(
     private iconsSrv: IconsService) {
     this.iconsSrv.registerIcons();
+    console.log("env => ",environment.go_rest_token);
+    
   }
 }
