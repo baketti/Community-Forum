@@ -1,3 +1,6 @@
+![Screenshot 2024-09-07 151523](https://github.com/user-attachments/assets/0f06c8dd-e546-4ddc-ae9f-98857190446b)
+![Screenshot 2024-09-07 151407](https://github.com/user-attachments/assets/50072531-b1a7-4018-a311-a24ec1c85692)
+
 # Urban Harmony
 This project was developed as the final exam for the Start2Impact University Angular course. 
 It is a frontend application designed to work as a management tool for citizens, enabling them to submit and manage their ideas or reports. 
